@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_work_timecalculate/data/data_days.dart';
 import 'package:flutter_work_timecalculate/data/theme.dart';
 import 'package:flutter_work_timecalculate/screens/enter_list_days_screen.dart';
-import 'package:flutter_work_timecalculate/screens/screens/day_night_widget.dart';
+import 'package:flutter_work_timecalculate/screens/widgets/day_night_widget.dart';
 import 'package:intl/intl.dart';
 
-import 'screens/date_format_func.dart';
+import 'widgets/date_format_func.dart';
 
 class VrioEditDataScreen extends StatelessWidget {
   const VrioEditDataScreen({super.key, required this.numberOfData});

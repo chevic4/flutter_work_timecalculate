@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_work_timecalculate/data/data_days.dart';
 import 'package:flutter_work_timecalculate/data/theme.dart';
 import 'package:flutter_work_timecalculate/screens/enter_data_workday_screen.dart';
-import 'package:flutter_work_timecalculate/screens/screens/cost_data_widget.dart';
-import 'package:flutter_work_timecalculate/screens/screens/data_workday_page.dart';
+import 'package:flutter_work_timecalculate/screens/widgets/cost_data_widget.dart';
+import 'package:flutter_work_timecalculate/screens/widgets/data_workday_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'edit_data_work_screen.dart';
