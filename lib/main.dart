@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_work_timecalculate/data/data_days.dart';
 import 'package:flutter_work_timecalculate/data/theme.dart';
-import 'package:flutter_work_timecalculate/screens/enter_list_days_screen.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/enter_list_days_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
