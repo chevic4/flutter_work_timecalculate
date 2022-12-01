@@ -48,7 +48,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
     currentDateFinish = DataWorking.data[widget.numberOfData].finishWork;
     currentTimeBegin = TimeOfDay.fromDateTime(currentDateBegin);
     currentTimeFinish = TimeOfDay.fromDateTime(currentDateFinish);
-    _currentDuration = DataWorking.data[widget.numberOfData].workTime;
+   // _currentDuration = DataWorking.data[widget.numberOfData].workTime;
     _sliderValueHours = _currentDuration.inHours.toDouble();
     _sliderValueMinuts = _currentDuration.inMinutes.toInt() % 60;
     currentDateBegin.hour > 17 ? changeWorkDay = false : changeWorkDay = true;
@@ -304,7 +304,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                   WorkDay value = WorkDay(
                     beginWork: currentDateBegin,
                     finishWork: currentDateFinish,
-                    workTime: currentDateFinish.difference(currentDateBegin),
+                  //  workTime: currentDateFinish.difference(currentDateBegin),
                   );
                   DataWorking.data[widget.numberOfData] = value;
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
