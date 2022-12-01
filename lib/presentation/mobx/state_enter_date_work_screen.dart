@@ -14,23 +14,7 @@ abstract class _StoreDate with Store {
 
   DateTime getDate() {
     DateTime result = DateTime.now();
-    // if (workDayChange == true) {
-    //   result = DateTime(
-    //     2022,
-    //     11,
-    //     10,
-    //     6,
-    //     50,
-    //   );
-    // } else {
-    //   result = DateTime(
-    //     2022,
-    //     11,
-    //     11,
-    //     18,
-    //     20,
-    //   );
-    // }
+
 
     //return DateTime.now();
     return result;
