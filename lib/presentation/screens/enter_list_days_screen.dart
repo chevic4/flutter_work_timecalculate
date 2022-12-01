@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_work_timecalculate/data/data_days.dart';
 import 'package:flutter_work_timecalculate/data/theme.dart';
 import 'package:flutter_work_timecalculate/presentation/screens/enter_data_workday_screen.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/settings_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/cost_data_widget.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/data_workday_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -77,6 +78,22 @@ class _EnterWorkDaysState extends State<EnterWorkDays> {
                   data.clear();
                 });
               }),
+              child: Icon(
+                Icons.clear,
+                color: Colors.black.withOpacity(0.4),
+              ),
+            ),
+            FloatingActionButton(
+              heroTag: "btn2",
+              tooltip: 'настройки',
+              backgroundColor: colorMainP,
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const SettingScreen(),
+                  ),
+                );
+              },
               child: Icon(
                 Icons.clear,
                 color: Colors.black.withOpacity(0.4),

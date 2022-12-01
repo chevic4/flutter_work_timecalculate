@@ -85,13 +85,13 @@ class DataWorkDayPage extends StatelessWidget {
                 softWrap: true,
                 style: Theme.of(context).textTheme.bodyText1),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(_format(value.workTime),
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.bodyText1),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: Text(_format(value.workTime),
+          //       textAlign: TextAlign.left,
+          //       softWrap: true,
+          //       style: Theme.of(context).textTheme.bodyText1),
+          // ),
         ],
       ),
     );

@@ -12,7 +12,7 @@ class SummCostWidget extends StatelessWidget {
     var workingDays = data.length;
     var hours = const Duration();
     for (int i = begin; i <= finish; i++) {
-      hours = hours + data[i].workTime;
+ //     hours = hours + data[i].workTime;
     }
     return Column(
       children: [
