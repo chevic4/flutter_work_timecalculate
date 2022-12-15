@@ -15,7 +15,6 @@ abstract class _StoreDate with Store {
   DateTime getDate() {
     DateTime result = DateTime.now();
 
-
     //return DateTime.now();
     return result;
   }

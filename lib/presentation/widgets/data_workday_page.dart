@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_work_timecalculate/data/data_days.dart';
 import 'package:flutter_work_timecalculate/data/theme.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/day_night_widget.dart';
 import 'package:intl/intl.dart';
+import '../../domain/entity/workday.dart';
 
 class TitleViewDays extends StatelessWidget {
   const TitleViewDays({super.key});
@@ -98,6 +98,6 @@ class DataWorkDayPage extends StatelessWidget {
   }
 }
 
-String _format(Duration d) {
-  return '${d.inHours.toString().padLeft(2, '0')}:${d.inMinutes.remainder(60).toString().padLeft(2, '0')}';
-}
+// String _format(Duration d) {
+//   return '${d.inHours.toString().padLeft(2, '0')}:${d.inMinutes.remainder(60).toString().padLeft(2, '0')}';
+// }

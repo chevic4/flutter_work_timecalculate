@@ -1,26 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../domain/entity/workday.dart';
+
 class DataWorking {
   DataWorking._();
   static TimeOfDay? beginTime;
   static TimeOfDay? finishTime;
   static List<WorkDay> data = [];
   static final instance = DataWorking._();
-}
-
-class WorkDay {
-  DateTime beginWork;
-  DateTime finishWork;
-  //Duration workTime;
-  WorkDay({
-    required this.beginWork,
-    required this.finishWork,
-    //  required this.workTime,
-  });
-
-  Duration getDuration() {
-    return finishWork.difference(beginWork);
-  }
 }
 
 abstract class WorkDayMethods {

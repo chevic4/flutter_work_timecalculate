@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_work_timecalculate/presentation/mobx/state_enter_date_work_screen.dart';
-import 'package:flutter_work_timecalculate/presentation/screens/enter_list_days_screen.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_work_timecalculate/presentation/mobx/state_setting_screen.dart';
+import 'package:intl/intl.dart';
 import '../../data/theme.dart';
 import '../widgets/day_night_widget.dart';
+import 'enter_list_days_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});
@@ -11,9 +13,8 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('данные о смене'),
+        title: const Text('настройки'),
       ),
-    //  body: const SafeArea(child: EnterDataScreen()),
       body: const SafeArea(child: SettingsScreen()),
     );
   }
@@ -27,83 +28,207 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _EnterDateScreenState extends State<SettingsScreen> {
-  final store = StoreDate();
-  DateTime workDaybeginDate = DateTime.now();
+  final store = StoreSettingDate();
+
+  @override
+  void initState() {
+    store.initDate();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('начало смены по умолчанию',
-              textAlign: TextAlign.left,
-              softWrap: true,
-              style: Theme.of(context).textTheme.subtitle1),
-          Card(
-              color: store.workDayChange ? colorPwhite : colorPblack,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: const Text('поменять'),
-                    ),
-                  ],
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('настройка смены',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: Theme.of(context).textTheme.subtitle1),
+
+//              DAY / NIGHT
+
+            Observer(builder: (_) {
+              return Card(
+                color: store.workDayChange ? colorPwhite : colorPblack,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DayNightTextWidget(value: store.workDayChange),
+                      DayNightWidget(value: store.workDayChange),
+                      ElevatedButton(
+                        onPressed: store.changeWorkDayValue,
+                        child: const Text('поменять'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-        
-          const SizedBox(height: 10.0),
-          Text('окончание смены по умолчанию',
-              textAlign: TextAlign.left,
-              softWrap: true,
-              style: Theme.of(context).textTheme.subtitle1),
-          Card(
-              color: store.workDayChange ? colorPwhite : colorPblack,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ElevatedButton(
-                      onPressed: (){},
-                      child: const Text('поменять'),
-                    ),
-                  ],
+              );
+            }),
+            const SizedBox(height: 10.0),
+            Text('дата по умолчанию',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: Theme.of(context).textTheme.subtitle1),
+
+//            //   DATE begin
+
+            Observer(builder: (_) {
+              return Card(
+                color: store.workDayChange ? colorPwhite : colorPblack,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(DateFormat('dd.MM.yy').format(store.beginDate),
+                              textAlign: TextAlign.left,
+                              softWrap: true,
+                              style: Theme.of(context).textTheme.headline4),
+                          const SizedBox(width: 10.0),
+                          ElevatedButton(
+                              child: const Text('изменить дату'),
+                              onPressed: (() async {
+                                store.setDateBegin(context);
+                              })),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              );
+            }),
+            const SizedBox(height: 10.0),
+            Text('начало по умолчанию',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: Theme.of(context).textTheme.subtitle1),
+
+//            //    TIME begin
+
+            Observer(builder: (_) {
+              return Card(
+                color: store.workDayChange ? colorPwhite : colorPblack,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(' ${store.beginTime.hour}:${store.beginTime.minute}',
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.headline4),
+                      const SizedBox(width: 10.0),
+                      ElevatedButton(
+                        child: const Text('изменить время'),
+                        onPressed: () async {
+                          store.setTimeBegin(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            const SizedBox(height: 10.0),
+            Text('окончание по умолчанию',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: Theme.of(context).textTheme.subtitle1),
+
+//           //    TIME finish
+
+            Observer(builder: (_) {
+              return Card(
+                color: store.workDayChange ? colorPwhite : colorPblack,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          ' ${store.finishTime.hour}:${store.finishTime.minute}',
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.headline4),
+                      const SizedBox(width: 10.0),
+                      ElevatedButton(
+                        child: const Text('изменить время'),
+                        onPressed: () async {
+                          store.setTimeFinish(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            const SizedBox(height: 10.0),
+            Text('продолжительность по умолчанию',
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: Theme.of(context).textTheme.subtitle1),
+            Observer(builder: (_) {
+              return Card(
+                color: store.workDayChange ? colorPwhite : colorPblack,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Slider(
+                        min: 0,
+                        max: 24,
+                        divisions: 24,
+                        label: store.hours.round().toString(),
+                        value: store.hours,
+                        onChanged: store.setHours,
+                      ),
+                      Text('часы',
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.subtitle1),
+                      Slider(
+                        min: 0,
+                        max: 55,
+                        divisions: 11,
+                        label: store.minutes.round().toString(),
+                        value: store.minutes,
+                        onChanged: store.setMinutes,
+                      ),
+                      Text('минуты',
+                          textAlign: TextAlign.left,
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.subtitle1),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            const SizedBox(height: 15.0),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: const Text('назад'),
+                  onPressed: () {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const EnterWorkDays(),
+                    ));
+                  },
+                ),
+              ],
             ),
-          const SizedBox(height: 15.0),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                child: const Text('назад'),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const EnterWorkDays(),
-                  ));
-                },
-              ),
-              const SizedBox(width: 10.0),
-              ElevatedButton(
-                child: const Text('сохранить'),
-                onPressed: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const EnterWorkDays(),
-                  ));
-                },
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

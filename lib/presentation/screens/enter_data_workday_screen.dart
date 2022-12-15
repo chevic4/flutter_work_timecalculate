@@ -5,6 +5,7 @@ import 'package:flutter_work_timecalculate/presentation/screens/enter_list_days_
 import 'package:flutter_work_timecalculate/presentation/widgets/day_night_widget.dart';
 import 'package:intl/intl.dart';
 
+import '../../domain/entity/workday.dart';
 import 'enter_date_work_screen.dart';
 
 class VrioEnterDataScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class VrioEnterDataScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('данные о смене'),
       ),
-    //  body: const SafeArea(child: EnterDataScreen()),
+      //  body: const SafeArea(child: EnterDataScreen()),
       body: const SafeArea(child: EnterDateScreen()),
     );
   }
@@ -370,7 +371,7 @@ class _EnterDataScreenState extends State<EnterDataScreen> {
                 WorkDay value = WorkDay(
                   beginWork: workDaybeginDate,
                   finishWork: workDayfinishDate,
-               //   workTime: workDayfinishDate.difference(workDaybeginDate),
+                  //   workTime: workDayfinishDate.difference(workDaybeginDate),
                 );
                 DataWorking.data.add(value);
                 data.sort((a, b) => a.beginWork.compareTo(b.beginWork));

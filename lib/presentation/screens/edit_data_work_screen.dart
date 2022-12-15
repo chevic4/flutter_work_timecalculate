@@ -5,6 +5,7 @@ import 'package:flutter_work_timecalculate/presentation/screens/enter_list_days_
 import 'package:flutter_work_timecalculate/presentation/widgets/day_night_widget.dart';
 import 'package:intl/intl.dart';
 
+import '../../domain/entity/workday.dart';
 import '../widgets/date_format_func.dart';
 
 class VrioEditDataScreen extends StatelessWidget {
@@ -48,7 +49,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
     currentDateFinish = DataWorking.data[widget.numberOfData].finishWork;
     currentTimeBegin = TimeOfDay.fromDateTime(currentDateBegin);
     currentTimeFinish = TimeOfDay.fromDateTime(currentDateFinish);
-   // _currentDuration = DataWorking.data[widget.numberOfData].workTime;
+    // _currentDuration = DataWorking.data[widget.numberOfData].workTime;
     _sliderValueHours = _currentDuration.inHours.toDouble();
     _sliderValueMinuts = _currentDuration.inMinutes.toInt() % 60;
     currentDateBegin.hour > 17 ? changeWorkDay = false : changeWorkDay = true;
@@ -82,7 +83,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
       _selected.minute,
     );
     if (_selected != currentTimeFinish &&
-        _selected != null &&
+        //     _selected != null &&
         _temp.isAfter(currentDateBegin)) {
       setState(() {
         currentTimeFinish = _selected;
@@ -304,7 +305,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                   WorkDay value = WorkDay(
                     beginWork: currentDateBegin,
                     finishWork: currentDateFinish,
-                  //  workTime: currentDateFinish.difference(currentDateBegin),
+                    //  workTime: currentDateFinish.difference(currentDateBegin),
                   );
                   DataWorking.data[widget.numberOfData] = value;
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -332,16 +333,16 @@ class _EditDataScreenState extends State<EditDataScreen> {
   }
 }
 
-double _timeToDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
+//double _timeToDouble(TimeOfDay myTime) => myTime.hour + myTime.minute / 60.0;
 
-Duration _intToDuration(double value) {
-  int h = value ~/ 60;
-  int m = value.toInt() % 60;
-  Duration result = Duration(hours: h, minutes: m);
-  return result;
-}
+// Duration _intToDuration(double value) {
+//   int h = value ~/ 60;
+//   int m = value.toInt() % 60;
+//   Duration result = Duration(hours: h, minutes: m);
+//   return result;
+// }
 
-int _formMin(double value) {
-  int result = value.round();
-  return result;
-}
+// int _formMin(double value) {
+//   int result = value.round();
+//   return result;
+// }
