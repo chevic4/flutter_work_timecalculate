@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_work_timecalculate/presentation/screens/enter_list_days_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/select_date_widget.dart';
-import 'package:flutter_work_timecalculate/presentation/widgets/select_time_widget.dart';
 import 'package:intl/intl.dart';
 import '../../data/theme.dart';
 import '../mobx/state_enter_date_work_screen.dart';
@@ -97,7 +96,7 @@ class _EnterDateScreenState extends State<EnterDateScreen> {
                         ElevatedButton(
                           child: const Text('изменить время'),
                           onPressed: () async {
-                           // store.workDaybeginDate = await selectTime(
+                            // store.workDaybeginDate = await selectTime(
                             //    context, store.workDaybeginDate);
                           },
                         ),
@@ -154,8 +153,8 @@ class _EnterDateScreenState extends State<EnterDateScreen> {
                         ElevatedButton(
                           child: const Text('изменить время'),
                           onPressed: () async {
-                          //  store.workDayfinishDate = await selectTime(
-                          //      context, store.workDayfinishDate);
+                            //  store.workDayfinishDate = await selectTime(
+                            //      context, store.workDayfinishDate);
                           },
                         ),
                       ],

@@ -122,7 +122,7 @@ class _EnterDateScreenState extends State<SettingsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(' ${store.beginTime.hour}:${store.beginTime.minute}',
+                      Text(store.beginTime.to24hours(),
                           textAlign: TextAlign.left,
                           softWrap: true,
                           style: Theme.of(context).textTheme.headline4),
@@ -154,8 +154,7 @@ class _EnterDateScreenState extends State<SettingsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                          ' ${store.finishTime.hour}:${store.finishTime.minute}',
+                      Text(store.finishTime.to24hours(),
                           textAlign: TextAlign.left,
                           softWrap: true,
                           style: Theme.of(context).textTheme.headline4),
@@ -231,5 +230,13 @@ class _EnterDateScreenState extends State<SettingsScreen> {
         ),
       ),
     );
+  }
+}
+
+extension TimeOfDayConverter on TimeOfDay {
+  String to24hours() {
+    final hour = this.hour.toString().padLeft(2, "0");
+    final min = minute.toString().padLeft(2, "0");
+    return "$hour:$min";
   }
 }

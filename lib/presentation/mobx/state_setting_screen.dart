@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_work_timecalculate/domain/services/default_set_service.dart';
+import 'package:flutter_work_timecalculate/presentation/mobx/round_tofive.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/info_dialog_widget.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/select_date_widget.dart';
 import 'package:mobx/mobx.dart';
-
 import '../widgets/select_time_widget.dart';
 part 'state_setting_screen.g.dart';
 
@@ -66,7 +67,7 @@ abstract class _StoreSettingDate with Store {
   }
 
   void setMinutes(double value) {
-    minutes = value;
+    minutes = roundToFive(value);
     setDuration();
   }
 
@@ -77,6 +78,18 @@ abstract class _StoreSettingDate with Store {
 
   void setDuration() {
     defDuration = Duration(hours: hours.toInt(), minutes: minutes.toInt());
+
+    workDayChange
+        ? defaultSettingsService.setDurationDay(defDuration)
+        : defaultSettingsService.setDurationNight(defDuration);
+
+    computeTimeFinish();
+  }
+
+  void computeDuration() {
+    defDuration = _calculateDuration(beginTime, finishTime);
+    minutes = defDuration.inMinutes.toInt() % 60;
+    hours = defDuration.inHours.toDouble();
 
     workDayChange
         ? defaultSettingsService.setDurationDay(defDuration)
@@ -103,11 +116,6 @@ abstract class _StoreSettingDate with Store {
     workDayChange
         ? defaultSettingsService.setDateBeginDay(beginDate)
         : defaultSettingsService.setDateBeginNight(beginDate);
-
-    // if (workDayChange == false) {
-    //   defaultSettingsService.defaultSettingsProvider.defaultDateBeginNight =
-    //       beginDate;
-    // }
   }
 
   // time begin
@@ -124,10 +132,29 @@ abstract class _StoreSettingDate with Store {
 
   Future<void> setTimeBegin(context) async {
     beginTime = await selectTime(context, beginTime);
+    beginTime = TimeOfDay(
+        hour: beginTime.hour, minute: roundToFiveInt(beginTime.minute));
 
-    workDayChange
-        ? defaultSettingsService.setTimeBeginDay(beginTime)
-        : defaultSettingsService.setTimeBeginNight(beginTime);
+    if (workDayChange) {
+      if (beginTime.hour > 16) {
+        getInfoDialog(context, 'начало дневной смены не позднее 17-00');
+        beginTime = TimeOfDay(hour: 16, minute: 00);
+      }
+      if (_validTimeOfDate(beginTime, finishTime) != true) {
+        getInfoDialog(context, 'конец смены не может быть раньше её начала');
+        finishTime = beginTime;
+        defaultSettingsService.setTimeFinishDay(finishTime);
+      }
+      computeDuration();
+      defaultSettingsService.setTimeBeginDay(beginTime);
+    } else {
+      if (beginTime.hour < 17) {
+        getInfoDialog(context, 'начало ончной смены не раньше 17-00');
+        beginTime = TimeOfDay(hour: 17, minute: 00);
+      }
+      computeDuration();
+      defaultSettingsService.setTimeBeginNight(beginTime);
+    }
   }
 
   // time finish
@@ -144,11 +171,56 @@ abstract class _StoreSettingDate with Store {
 
   Future<void> setTimeFinish(context) async {
     finishTime = await selectTime(context, finishTime);
-
-    workDayChange
-        ? defaultSettingsService.setTimeFinishDay(finishTime)
-        : defaultSettingsService.setTimeFinishNight(finishTime);
+    finishTime = TimeOfDay(
+        hour: finishTime.hour, minute: roundToFiveInt(finishTime.minute));
+    if (workDayChange) {
+      final bool validTime = _validTimeOfDate(beginTime, finishTime);
+      if (validTime != true) {
+        getInfoDialog(
+            context, 'время окончания не может быть раньше времени начала');
+        finishTime = beginTime;
+      }
+      computeDuration();
+      defaultSettingsService.setTimeFinishDay(finishTime);
+    } else {
+      computeDuration();
+      defaultSettingsService.setTimeFinishNight(finishTime);
+    }
   }
+
+  void computeTimeFinish() {
+    final result = _calculateTimeFinish(beginTime, defDuration);
+    finishTime = result;
+    workDayChange
+        ? defaultSettingsService.setTimeFinishDay(result)
+        : defaultSettingsService.setTimeFinishNight(result);
+  }
+}
+
+bool _validTimeOfDate(TimeOfDay startTime, TimeOfDay endTime) {
+  final int startTimeInt = (startTime.hour * 60 + startTime.minute);
+  final int EndTimeInt = (endTime.hour * 60 + endTime.minute);
+  return EndTimeInt > startTimeInt ? true : false;
+}
+
+Duration _calculateDuration(TimeOfDay beg, TimeOfDay end) {
+  var bdate = beg.toDateTime();
+  var edate = end.toDateTime();
+  if (bdate.isBefore(edate) == false) {
+    edate = edate.add(Duration(days: 1));
+    return edate.difference(bdate);
+  } else {
+    return edate.difference(bdate);
+  }
+}
+
+TimeOfDay _calculateTimeFinish(TimeOfDay timeDef, Duration durDef) {
+  DateTime dateForCalculate = timeDef.toDateTime();
+
+  dateForCalculate = dateForCalculate.add(durDef);
+
+  return TimeOfDay(
+      hour: dateForCalculate.hour, minute: dateForCalculate.minute);
 }
 
 // flutter pub run build_runner build
