@@ -5,7 +5,7 @@ import 'package:flutter_work_timecalculate/presentation/widgets/info_dialog_widg
 import 'package:flutter_work_timecalculate/presentation/widgets/select_date_widget.dart';
 import 'package:mobx/mobx.dart';
 import '../widgets/select_time_widget.dart';
-part 'state_setting_screen.g.dart';
+part 'store_setting_screen.g.dart';
 
 class StoreSettingDate = _StoreSettingDate with _$StoreSettingDate;
 
@@ -149,7 +149,7 @@ abstract class _StoreSettingDate with Store {
       defaultSettingsService.setTimeBeginDay(beginTime);
     } else {
       if (beginTime.hour < 17) {
-        getInfoDialog(context, 'начало ончной смены не раньше 17-00');
+        getInfoDialog(context, 'начало ночной смены не раньше 17-00');
         beginTime = TimeOfDay(hour: 17, minute: 00);
       }
       computeDuration();
@@ -195,6 +195,10 @@ abstract class _StoreSettingDate with Store {
         ? defaultSettingsService.setTimeFinishDay(result)
         : defaultSettingsService.setTimeFinishNight(result);
   }
+
+  void goMainScreen(BuildContext context) {
+    Navigator.popAndPushNamed(context, '/');
+  }
 }
 
 bool _validTimeOfDate(TimeOfDay startTime, TimeOfDay endTime) {
@@ -222,5 +226,3 @@ TimeOfDay _calculateTimeFinish(TimeOfDay timeDef, Duration durDef) {
   return TimeOfDay(
       hour: dateForCalculate.hour, minute: dateForCalculate.minute);
 }
-
-// flutter pub run build_runner build

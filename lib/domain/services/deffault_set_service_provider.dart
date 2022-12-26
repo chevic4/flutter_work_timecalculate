@@ -48,6 +48,14 @@ class DefaultSettingsProvider {
 
   void _setInStore(DefaultTime defaultTime, DateTime value) {
     switch (defaultTime) {
+      case DefaultTime.dateBeginDay:
+        defaultDateBeginDay = value;
+        break;
+
+      case DefaultTime.dateBeginNight:
+        defaultDateBeginNight = value;
+        break;
+
       case DefaultTime.timeBeginDay:
         defaultBeginTimeDay = value;
         break;
@@ -63,19 +71,17 @@ class DefaultSettingsProvider {
       case DefaultTime.timeFinishNight:
         defaultFinishTimeNight = value;
         break;
-
-      case DefaultTime.dateBeginDay:
-        defaultDateBeginDay = value;
-        break;
-
-      case DefaultTime.dateBeginNight:
-        defaultDateBeginNight = value;
-        break;
     }
   }
 
   DateTime _getFromStore(DefaultTime defaultTime) {
     switch (defaultTime) {
+      case DefaultTime.dateBeginDay:
+        return defaultDateBeginDay;
+
+      case DefaultTime.dateBeginNight:
+        return defaultDateBeginNight;
+
       case DefaultTime.timeBeginDay:
         return defaultBeginTimeDay;
 
@@ -87,12 +93,6 @@ class DefaultSettingsProvider {
 
       case DefaultTime.timeFinishNight:
         return defaultFinishTimeNight;
-
-      case DefaultTime.dateBeginDay:
-        return defaultDateBeginDay;
-
-      case DefaultTime.dateBeginNight:
-        return defaultDateBeginNight;
     }
   }
 }

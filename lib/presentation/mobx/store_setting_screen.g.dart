@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'state_setting_screen.dart';
+part of 'store_setting_screen.dart';
 
 // **************************************************************************
 // StoreGenerator

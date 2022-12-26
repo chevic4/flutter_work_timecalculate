@@ -1,14 +1,14 @@
+import 'package:hive/hive.dart';
+part 'workday.g.dart';
+
+@HiveType(typeId: 0)
 class WorkDay {
+  @HiveField(0)
   DateTime beginWork;
+  @HiveField(1)
   DateTime finishWork;
-  //Duration workTime;
   WorkDay({
     required this.beginWork,
     required this.finishWork,
-    //  required this.workTime,
   });
-
-  Duration getDuration() {
-    return finishWork.difference(beginWork);
-  }
 }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'state_enterdata_screen.dart';
+part of 'store_enterdata_screen.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -57,12 +57,46 @@ mixin _$StoreEnterData on _StoreEnterData, Store {
     });
   }
 
+  late final _$hoursAtom =
+      Atom(name: '_StoreEnterData.hours', context: context);
+
+  @override
+  double get hours {
+    _$hoursAtom.reportRead();
+    return super.hours;
+  }
+
+  @override
+  set hours(double value) {
+    _$hoursAtom.reportWrite(value, super.hours, () {
+      super.hours = value;
+    });
+  }
+
+  late final _$minutesAtom =
+      Atom(name: '_StoreEnterData.minutes', context: context);
+
+  @override
+  double get minutes {
+    _$minutesAtom.reportRead();
+    return super.minutes;
+  }
+
+  @override
+  set minutes(double value) {
+    _$minutesAtom.reportWrite(value, super.minutes, () {
+      super.minutes = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
 workDayChange: ${workDayChange},
 currentBeginDate: ${currentBeginDate},
-currentFinishDate: ${currentFinishDate}
+currentFinishDate: ${currentFinishDate},
+hours: ${hours},
+minutes: ${minutes}
     ''';
   }
 }
