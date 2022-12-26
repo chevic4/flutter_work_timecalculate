@@ -14,7 +14,6 @@ final routes = {
 };
 
 var onGenerateRoute = (RouteSettings settings) {
-  //Unified processing
   final String? name = settings.name;
   final Function? pageContentBuilder = routes[name];
   if (pageContentBuilder != null) {

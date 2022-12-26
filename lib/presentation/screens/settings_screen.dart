@@ -4,7 +4,6 @@ import 'package:flutter_work_timecalculate/presentation/mobx/store_setting_scree
 import 'package:intl/intl.dart';
 import '../../data/theme.dart';
 import '../widgets/day_night_widget.dart';
-import 'listmain_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({super.key});

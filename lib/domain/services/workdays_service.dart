@@ -6,7 +6,7 @@ class WorkDayService {
 
   Future<List<WorkDay>> loadListWorkDay() async {
     final result = await workDaysStoreProvider.getWorkDaysFromHive();
-    if (result == null) {
+    if (result.isEmpty) {
       return [];
     } else
       return result;
