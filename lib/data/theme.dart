@@ -10,6 +10,8 @@ const colorGwhite = Color(0xFFE6E7E5);
 
 const colorMainP = Color(0xFFF7D3BA);
 
+const colorMainP2 = Color.fromARGB(255, 243, 247, 186);
+
 //const fivaeColor = Color.fromARGB(0, 66, 67, 63);
 const colorText = Colors.black54;
 const colorbackGround = colorGreyblack;

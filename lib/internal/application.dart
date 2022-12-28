@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_work_timecalculate/data/data_days.dart';
+import 'package:flutter_work_timecalculate/data/routes.dart';
 import '../data/theme.dart';
-import '../presentation/screens/enter_list_days_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -21,7 +21,10 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ru', ''),
       debugShowCheckedModeBanner: false,
       theme: myTheme(),
-      home: const EnterWorkDays(),
+      initialRoute:'/', 
+      onGenerateRoute: onGenerateRoute,
+
+     // home: const ListMainScreen(),
     );
   }
 }

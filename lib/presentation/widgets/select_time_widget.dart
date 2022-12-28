@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../data/data_days.dart';
 import '../../data/theme.dart';
 
-Future<DateTime> selectTime(
-    BuildContext context, DateTime defaultDate) async {
+Future<TimeOfDay> selectTime(
+    BuildContext context, TimeOfDay defaultDate) async {
   final TimeOfDay? selected = await showTimePicker(
     context: context,
-    initialTime: WorkDayMethods.getTimeFromDate(defaultDate),
+    initialTime: defaultDate,
     builder: (context, child) {
       return Theme(
         data: Theme.of(context).copyWith(
@@ -25,8 +24,7 @@ Future<DateTime> selectTime(
       );
     },
   );
-  return selected != null &&
-          selected != WorkDayMethods.getTimeFromDate(defaultDate)
-      ? defaultDate = WorkDayMethods.editTimeOnDate(defaultDate, selected)
+  return selected != null && selected != defaultDate
+      ? defaultDate = selected
       : defaultDate;
 }
