@@ -89,9 +89,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                           const SizedBox(width: 10.0),
                           ElevatedButton(
                             child: const Text('изменить дату'),
-                            onPressed: () {
-                              store.setDateBegin(context);
-                            },
+                            onPressed: () => store.setDateBegin(context),
                           ),
                         ],
                       ),
@@ -117,9 +115,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                       const SizedBox(width: 10.0),
                       ElevatedButton(
                         child: const Text('изменить время'),
-                        onPressed: () {
-                          store.setTimeBegin(context);
-                        },
+                        onPressed: () => store.setTimeBegin(context),
                       ),
                     ],
                   ),
@@ -143,9 +139,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                       const SizedBox(width: 10.0),
                       ElevatedButton(
                         child: const Text('изменить время'),
-                        onPressed: () {
-                          store.setTimeFinish(context);
-                        },
+                        onPressed: () => store.setTimeFinish(context),
                       ),
                     ],
                   ),

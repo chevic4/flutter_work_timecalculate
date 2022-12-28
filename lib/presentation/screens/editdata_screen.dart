@@ -90,9 +90,8 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                       const SizedBox(width: 10.0),
                                       ElevatedButton(
                                         child: const Text('изменить время'),
-                                        onPressed: () {
-                                          store.setTimeBegin(context);
-                                        },
+                                        onPressed: () =>
+                                            store.setTimeBegin(context),
                                       ),
                                     ],
                                   ),
@@ -132,9 +131,8 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                       const SizedBox(width: 10.0),
                                       ElevatedButton(
                                         child: const Text('изменить время'),
-                                        onPressed: () {
-                                          store.setTimeFinish(context);
-                                        },
+                                        onPressed: () =>
+                                            store.setTimeFinish(context),
                                       ),
                                     ],
                                   ),
