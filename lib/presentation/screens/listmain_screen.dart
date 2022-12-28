@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/result_workdays_summ.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/result_workdays_time.dart';
 import '../../data/theme.dart';
 import '../mobx/store_listmain_screen.dart';
 import '../widgets/data_workday_page.dart';
+import 'package:hidable/hidable.dart';
 
 class ListMainScreen extends StatefulWidget {
   const ListMainScreen({super.key});
@@ -12,6 +15,7 @@ class ListMainScreen extends StatefulWidget {
 }
 
 class _ListMainScreenState extends State<ListMainScreen> {
+  final ScrollController _firstController = ScrollController();
   final store = StoreListMain();
   @override
   void initState() {
@@ -26,15 +30,27 @@ class _ListMainScreenState extends State<ListMainScreen> {
         appBar: AppBar(title: const Text('калькулятор смен')),
         body: Container(
           child: !store.loading
-              ? ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: store.listWorkDays.length,
-                  itemBuilder: (context, i) => GestureDetector(
-                    onTap: () => store.goEditScreen(context, i),
-                    child: DataWorkDayPage(
-                      value: store.listWorkDays[i],
+              ? Column(
+                  children: [
+                    ResultWorkDaysWidget(
+                      value: store.durationWorkDays(),
                     ),
-                  ),
+                    const TitleViewDays(),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 2 + 20,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: store.listWorkDays.length,
+                        itemBuilder: (context, i) => GestureDetector(
+                          onTap: () => store.goEditScreen(context, i),
+                          child: DataWorkDayPage(
+                            value: store.listWorkDays[i],
+                          ),
+                        ),
+                      ),
+                    ),
+                    WorkDaysSummWidget(items: store.getLengthWorkDays()),
+                  ],
                 )
               : Text('loading...'),
         ),

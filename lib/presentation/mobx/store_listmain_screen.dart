@@ -29,7 +29,7 @@ abstract class _StoreListMain with Store {
 
   Future<void> deleteIndex(int index) async {
     loading = true;
-    workDayService.deleteWorkdayIndex(index);
+    await workDayService.deleteWorkdayIndex(index);
     await loadDataFromStore();
     loading = false;
   }
@@ -46,18 +46,18 @@ abstract class _StoreListMain with Store {
     Navigator.popAndPushNamed(context, '/editdata', arguments: value);
   }
 
-  void clearList(BuildContext context) {}
-
-  void onDismissed(BuildContext context, SlidebleAction action, int index) {
-    switch (action) {
-      case SlidebleAction.delete:
-        deleteIndex(index);
-        break;
-
-      case SlidebleAction.edit:
-        break;
-    }
+  int getLengthWorkDays() {
+    return listWorkDays.length;
   }
-}
 
-enum SlidebleAction { delete, edit }
+  Duration durationWorkDays() {
+    Duration result = Duration();
+    for (var element in listWorkDays) {
+      var cache = element.finishWork.difference(element.beginWork);
+      result += cache;
+    }
+    return result;
+  }
+
+  void clearList(BuildContext context) {}
+}

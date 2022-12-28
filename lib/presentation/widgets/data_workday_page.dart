@@ -51,7 +51,7 @@ class DataWorkDayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: value.beginWork.hour < 18 ? colorPwhite : colorPblack,
+      color: value.beginWork.hour < 17 ? colorPwhite : colorPblack,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,7 +60,7 @@ class DataWorkDayPage extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                DayNightWidget(value: value.beginWork.hour < 18),
+                DayNightWidget(value: value.beginWork.hour < 17),
                 const SizedBox(
                   width: 5.0,
                 ),
@@ -85,19 +85,23 @@ class DataWorkDayPage extends StatelessWidget {
                 softWrap: true,
                 style: Theme.of(context).textTheme.bodyText1),
           ),
-          // Padding(
-          //   padding: const EdgeInsets.all(8.0),
-          //   child: Text(_format(value.workTime),
-          //       textAlign: TextAlign.left,
-          //       softWrap: true,
-          //       style: Theme.of(context).textTheme.bodyText1),
-          // ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(_computeDuration(value),
+                textAlign: TextAlign.left,
+                softWrap: true,
+                style: Theme.of(context).textTheme.bodyText1),
+          ),
         ],
       ),
     );
   }
 }
 
-// String _format(Duration d) {
-//   return '${d.inHours.toString().padLeft(2, '0')}:${d.inMinutes.remainder(60).toString().padLeft(2, '0')}';
-// }
+String _computeDuration(WorkDay value) {
+  final currentDuration = value.finishWork.difference(value.beginWork);
+  final minutes =
+      (currentDuration.inMinutes.toInt() % 60).toString().padLeft(2, '0');
+  final hours = (currentDuration.inHours.toInt()).toString().padLeft(2, '0');
+  return "$hours:$minutes";
+}
