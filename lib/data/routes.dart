@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../presentation/screens/editdata_screen.dart';
 import '../presentation/screens/enterdata_screen.dart';
 import '../presentation/screens/listmain_screen.dart';
@@ -30,4 +29,5 @@ var onGenerateRoute = (RouteSettings settings) {
       return route;
     }
   }
+  return null;
 };

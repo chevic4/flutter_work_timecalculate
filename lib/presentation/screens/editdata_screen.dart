@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_editdata_screen.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../data/theme.dart';
 import '../widgets/day_night_widget.dart';
@@ -44,10 +45,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 5.0),
-                          Text('редактирование смены',
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.subtitle1),
+                          TextSubTitle1(value: 'редактирование смены'),
 
                           //              DAY / NIGHT
 
@@ -62,24 +60,16 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                 children: [
                                   DayNightWidget(value: store.workDayChange),
                                   const SizedBox(width: 10.0),
-                                  Text(
-                                      DateFormat('dd.MM.yy')
-                                          .format(store.currentBeginDate),
-                                      textAlign: TextAlign.left,
-                                      softWrap: true,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline4),
+                                  TextHeadline4(
+                                      value: DateFormat('dd.MM.yy')
+                                          .format(store.currentBeginDate)),
                                 ],
                               ),
                             ),
                           ),
 
                           const SizedBox(height: 10.0),
-                          Text('начало смены',
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.subtitle1),
+                          TextSubTitle1(value: 'начало смены'),
 
                           //            //   Time begin
 
@@ -94,13 +84,9 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                          ' ${store.currentBeginDate.getTime()}',
-                                          textAlign: TextAlign.left,
-                                          softWrap: true,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4),
+                                      TextHeadline4(
+                                          value:
+                                              ' ${store.currentBeginDate.getTime()}'),
                                       const SizedBox(width: 10.0),
                                       ElevatedButton(
                                         child: const Text('изменить время'),
@@ -115,10 +101,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          Text('окончание смены',
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.subtitle1),
+                          TextSubTitle1(value: 'окончание смены'),
 
                           //            //   Time finish
 
@@ -133,14 +116,9 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                          DateFormat('dd.MM.yy')
-                                              .format(store.currentFinishDate),
-                                          textAlign: TextAlign.left,
-                                          softWrap: true,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4),
+                                      TextHeadline4(
+                                          value: DateFormat('dd.MM.yy')
+                                              .format(store.currentFinishDate)),
                                     ],
                                   ),
                                   Divider(color: Colors.black.withOpacity(0.5)),
@@ -148,13 +126,9 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                          ' ${store.currentFinishDate.getTime()}',
-                                          textAlign: TextAlign.left,
-                                          softWrap: true,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline4),
+                                      TextHeadline4(
+                                          value:
+                                              ' ${store.currentFinishDate.getTime()}'),
                                       const SizedBox(width: 10.0),
                                       ElevatedButton(
                                         child: const Text('изменить время'),
@@ -168,12 +142,9 @@ class _EditDataScreenState extends State<EditDataScreen> {
                               ),
                             ),
                           ),
-
-                          Text(
-                              'продолжительность смены ${store.currentDuration.to24hours()}',
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.subtitle1),
+                          TextSubTitle1(
+                              value:
+                                  'продолжительность смены ${store.currentDuration.to24hours()}'),
 
                           //             // duration
 
@@ -192,12 +163,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     value: store.hours,
                                     onChanged: store.setHours,
                                   ),
-                                  Text('часы',
-                                      textAlign: TextAlign.left,
-                                      softWrap: true,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1),
+                                  TextSubTitle1(value: 'часы'),
                                   Slider(
                                     min: 0,
                                     max: 55,
@@ -206,12 +172,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     value: store.minutes,
                                     onChanged: store.setMinutes,
                                   ),
-                                  Text('минуты',
-                                      textAlign: TextAlign.left,
-                                      softWrap: true,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .subtitle1),
+                                  TextSubTitle1(value: 'минуты'),
                                 ],
                               ),
                             ),

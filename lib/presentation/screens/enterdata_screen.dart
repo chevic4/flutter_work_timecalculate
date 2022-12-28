@@ -37,11 +37,10 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 5.0),
             Text('настройка смены',
                 textAlign: TextAlign.left,
                 softWrap: true,
@@ -70,7 +69,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
               );
             }),
 
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 5.0),
             Text('начало смены',
                 textAlign: TextAlign.left,
                 softWrap: true,
@@ -128,7 +127,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
               );
             }),
 
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 5.0),
             Text('окончание смены',
                 textAlign: TextAlign.left,
                 softWrap: true,
@@ -152,7 +151,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                               textAlign: TextAlign.left,
                               softWrap: true,
                               style: Theme.of(context).textTheme.headline4),
-                          const SizedBox(width: 10.0),
+                          const SizedBox(width: 8.0),
                         ],
                       ),
                       Divider(
@@ -165,7 +164,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                               textAlign: TextAlign.left,
                               softWrap: true,
                               style: Theme.of(context).textTheme.headline4),
-                          const SizedBox(width: 10.0),
+                          const SizedBox(width: 8.0),
                           ElevatedButton(
                             child: const Text('изменить время'),
                             onPressed: () {
@@ -226,7 +225,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
 
 //             // buttons
 
-            const SizedBox(height: 15.0),
+            const SizedBox(height: 10.0),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

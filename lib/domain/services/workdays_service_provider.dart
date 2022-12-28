@@ -35,6 +35,11 @@ class WorkDaysStoreProvider {
     await closeIt();
   }
 
+  Future<void> deleteBox() async {
+    final store = await openIt();
+    await store.deleteFromDisk();
+  }
+
   Future<void> editWorkdayIndexInHive(
       {required WorkDay value, required int index}) async {
     final store = await openIt();

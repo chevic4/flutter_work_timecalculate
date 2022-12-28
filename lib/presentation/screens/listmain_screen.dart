@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_work_timecalculate/presentation/widgets/result_workdays_summ.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/result_workdays_time.dart';
 import '../../data/theme.dart';
 import '../mobx/store_listmain_screen.dart';
 import '../widgets/data_workday_page.dart';
-import 'package:hidable/hidable.dart';
 
 class ListMainScreen extends StatefulWidget {
   const ListMainScreen({super.key});
@@ -15,7 +13,6 @@ class ListMainScreen extends StatefulWidget {
 }
 
 class _ListMainScreenState extends State<ListMainScreen> {
-  final ScrollController _firstController = ScrollController();
   final store = StoreListMain();
   @override
   void initState() {
@@ -34,6 +31,7 @@ class _ListMainScreenState extends State<ListMainScreen> {
                   children: [
                     ResultWorkDaysWidget(
                       value: store.durationWorkDays(),
+                      indexes: store.getLengthWorkDays(),
                     ),
                     const TitleViewDays(),
                     Container(
@@ -49,7 +47,6 @@ class _ListMainScreenState extends State<ListMainScreen> {
                         ),
                       ),
                     ),
-                    WorkDaysSummWidget(items: store.getLengthWorkDays()),
                   ],
                 )
               : Text('loading...'),
@@ -73,7 +70,7 @@ class _ListMainScreenState extends State<ListMainScreen> {
                 heroTag: "btn2",
                 tooltip: 'очистить список',
                 backgroundColor: colorMainP,
-                onPressed: () => store.clearList(context),
+                onPressed: () => store.clearList(),
                 child: Icon(
                   Icons.clear,
                   color: Colors.black.withOpacity(0.4),

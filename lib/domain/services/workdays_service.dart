@@ -21,6 +21,10 @@ class WorkDayService {
     await workDaysStoreProvider.addWorkdayToHive(value);
   }
 
+  Future<void> deleteBox() async {
+    await workDaysStoreProvider.deleteBox();
+  }
+
   Future<void> deleteWorkdayIndex(int index) async {
     await workDaysStoreProvider.deleteWorkdayIndexFromHive(index);
   }

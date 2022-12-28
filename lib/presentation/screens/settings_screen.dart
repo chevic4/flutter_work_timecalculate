@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_setting_screen.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../data/theme.dart';
 import '../widgets/day_night_widget.dart';
@@ -39,14 +40,11 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('настройка смены',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            TextSubTitle1(value: 'настройка смены'),
 
 //              DAY / NIGHT
 
@@ -70,11 +68,8 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                 ),
               );
             }),
-            const SizedBox(height: 10.0),
-            Text('дата по умолчанию',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            const SizedBox(height: 5.0),
+            TextSubTitle1(value: 'дата по умолчанию'),
 
 //            //   DATE begin
 
@@ -88,10 +83,9 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(DateFormat('dd.MM.yy').format(store.beginDate),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.headline4),
+                          TextHeadline4(
+                              value: DateFormat('dd.MM.yy')
+                                  .format(store.beginDate)),
                           const SizedBox(width: 10.0),
                           ElevatedButton(
                             child: const Text('изменить дату'),
@@ -106,11 +100,8 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                 ),
               );
             }),
-            const SizedBox(height: 10.0),
-            Text('начало по умолчанию',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            const SizedBox(height: 5.0),
+            TextSubTitle1(value: 'начало по умолчанию'),
 
 //            //    TIME begin
 
@@ -122,10 +113,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(store.beginTime.to24hours(),
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.headline4),
+                      TextHeadline4(value: store.beginTime.to24hours()),
                       const SizedBox(width: 10.0),
                       ElevatedButton(
                         child: const Text('изменить время'),
@@ -138,11 +126,8 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                 ),
               );
             }),
-            const SizedBox(height: 10.0),
-            Text('окончание по умолчанию',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            const SizedBox(height: 5.0),
+            TextSubTitle1(value: 'окончание по умолчанию'),
 
 //           //    TIME finish
 
@@ -154,10 +139,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(store.finishTime.to24hours(),
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.headline4),
+                      TextHeadline4(value: store.finishTime.to24hours()),
                       const SizedBox(width: 10.0),
                       ElevatedButton(
                         child: const Text('изменить время'),
@@ -170,7 +152,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                 ),
               );
             }),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 5.0),
             Text('продолжительность по умолчанию',
                 textAlign: TextAlign.left,
                 softWrap: true,
@@ -190,10 +172,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                         value: store.hours,
                         onChanged: store.setHours,
                       ),
-                      Text('часы',
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.subtitle1),
+                      TextSubTitle1(value: 'часы'),
                       Slider(
                         min: 0,
                         max: 55,
@@ -202,16 +181,13 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                         value: store.minutes,
                         onChanged: store.setMinutes,
                       ),
-                      Text('минуты',
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.subtitle1),
+                      TextSubTitle1(value: 'минуты'),
                     ],
                   ),
                 ),
               );
             }),
-            const SizedBox(height: 15.0),
+            const SizedBox(height: 10.0),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,

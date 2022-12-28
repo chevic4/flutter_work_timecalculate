@@ -59,5 +59,10 @@ abstract class _StoreListMain with Store {
     return result;
   }
 
-  void clearList(BuildContext context) {}
+  Future<void> clearList() async {
+    loading = true;
+    await workDayService.deleteBox();
+    listWorkDays.clear();
+    loading = false;
+  }
 }
