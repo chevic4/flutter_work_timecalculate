@@ -9,15 +9,18 @@ class TitleViewDays extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _TextSubtitle(value: 'дата смены'),
-          _TextSubtitle(value: 'начало'),
-          _TextSubtitle(value: 'конец'),
-          _TextSubtitle(value: 'время'),
-        ]);
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _TextSubtitle(value: 'дата смены'),
+            _TextSubtitle(value: 'начало'),
+            _TextSubtitle(value: 'конец'),
+            _TextSubtitle(value: 'время'),
+          ]),
+    );
   }
 }
 
@@ -28,26 +31,29 @@ class DataWorkDayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: value.beginWork.hour < 17 ? colorPwhite : colorPblack,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                DayNightWidget(value: value.beginWork.hour < 17),
-                const SizedBox(
-                  width: 5.0,
-                ),
-                _TextBody(value: DateFormat('dd.MM').format(value.beginWork)),
-              ],
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  DayNightWidget(value: value.beginWork.hour < 17),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  _TextBody(value: DateFormat('dd.MM').format(value.beginWork)),
+                ],
+              ),
             ),
-          ),
-          _TextBody(value: DateFormat('HH:mm').format(value.beginWork)),
-          _TextBody(value: DateFormat('HH:mm').format(value.finishWork)),
-          _TextBody(value: _computeDuration(value)),
-        ],
+            _TextBody(value: DateFormat('HH:mm').format(value.beginWork)),
+            _TextBody(value: DateFormat('HH:mm').format(value.finishWork)),
+            _TextBody(value: _computeDuration(value)),
+          ],
+        ),
       ),
     );
   }
@@ -55,7 +61,7 @@ class DataWorkDayPage extends StatelessWidget {
 
 class _TextSubtitle extends StatelessWidget {
   final String value;
-  const _TextSubtitle({super.key, required this.value});
+  const _TextSubtitle({required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +77,7 @@ class _TextSubtitle extends StatelessWidget {
 
 class _TextBody extends StatelessWidget {
   final String value;
-  const _TextBody({super.key, required this.value});
+  const _TextBody({required this.value});
 
   @override
   Widget build(BuildContext context) {
