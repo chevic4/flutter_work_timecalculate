@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/result_workdays_time.dart';
-import '../../data/theme.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
+import '../../core/theme.dart';
 import '../mobx/store_listmain_screen.dart';
 import '../widgets/data_workday_page.dart';
 
@@ -27,67 +29,88 @@ class _ListMainScreenState extends State<ListMainScreen> {
         appBar: AppBar(title: const Text('калькулятор смен')),
         body: Container(
           child: !store.loading
-              ? Column(
-                  children: [
-                    ResultWorkDaysWidget(
-                      value: store.durationWorkDays(),
-                      indexes: store.getLengthWorkDays(),
-                    ),
-                    const TitleViewDays(),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 2 + 20,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: store.listWorkDays.length,
-                        itemBuilder: (context, i) => GestureDetector(
-                          onTap: () => store.goEditScreen(context, i),
-                          child: DataWorkDayPage(
-                            value: store.listWorkDays[i],
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ResultWorkDaysWidget(
+                              value: store.durationWorkDays(),
+                              indexes: store.getLengthWorkDays(),
+                            ),
+                            const TitleViewDays(),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 7,
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          itemCount: store.listWorkDays.length,
+                          itemBuilder: (context, index) => Slidable(
+                            key: ValueKey(store.listWorkDays[index]),
+                            direction: Axis.horizontal,
+                            endActionPane: ActionPane(
+                              extentRatio: 0.6,
+                              motion: ScrollMotion(),
+                              dismissible: DismissiblePane(
+                                  onDismissed: () => store.deleteIndex(index)),
+                              children: [
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    store.goEditScreen(context, index);
+                                  },
+                                  backgroundColor: colorbackGround,
+                                  foregroundColor: colorMainP2,
+                                  icon: Icons.edit,
+                                  label: 'изменить',
+                                ),
+                                SlidableAction(
+                                  onPressed: (context) {
+                                    store.deleteIndex(index);
+                                  },
+                                  backgroundColor: colorbackGround,
+                                  foregroundColor: colorMainP,
+                                  icon: Icons.delete,
+                                  label: 'удалить',
+                                ),
+                              ],
+                            ),
+                            child: DataWorkDayPage(
+                              value: store.listWorkDays[index],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        flex: 1,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButtonCustom(
+                                color: colorMainP2,
+                                iconButton: Icons.settings,
+                                onTap: () => store.goSettingScreen(context)),
+                            IconButtonCustom(
+                                color: colorMainP,
+                                iconButton: Icons.delete,
+                                onTap: () => store.clearList()),
+                            IconButtonCustom(
+                                color: colorMainG,
+                                iconButton: Icons.add,
+                                onTap: () => store.goAddScreen(context)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               : Text('loading...'),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 25.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FloatingActionButton(
-                heroTag: "btn3",
-                tooltip: 'настройки',
-                backgroundColor: colorMainP2,
-                onPressed: () => store.goSettingScreen(context),
-                child: Icon(
-                  Icons.list,
-                  color: Colors.black.withOpacity(0.4),
-                ),
-              ),
-              FloatingActionButton(
-                heroTag: "btn2",
-                tooltip: 'очистить список',
-                backgroundColor: colorMainP,
-                onPressed: () => store.clearList(),
-                child: Icon(
-                  Icons.clear,
-                  color: Colors.black.withOpacity(0.4),
-                ),
-              ),
-              FloatingActionButton(
-                heroTag: "btn1",
-                tooltip: 'добавить день',
-                backgroundColor: colorMainG,
-                onPressed: () => store.goAddScreen(context),
-                child: Icon(
-                  Icons.add,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ),
-            ],
-          ),
         ),
       );
     });

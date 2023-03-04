@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_enterdata_screen.dart';
-import 'package:intl/intl.dart';
-import '../../data/theme.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
+import '../../core/theme.dart';
 import '../widgets/day_night_widget.dart';
 
 class EnterDataScreen extends StatelessWidget {
@@ -41,10 +41,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('настройка смены',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            Textlabel(labelText: 'настройка смены'),
 
 //              DAY / NIGHT
 
@@ -59,10 +56,10 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                     children: [
                       DayNightTextWidget(value: store.workDayChange),
                       DayNightWidget(value: store.workDayChange),
-                      ElevatedButton(
-                        onPressed: store.changeWorkDayValue,
-                        child: const Text('поменять'),
-                      ),
+                      ElevatedButtonCustom(
+                          color: colorMainP2,
+                          textButton: 'поменять',
+                          onTap: store.changeWorkDayValue),
                     ],
                   ),
                 ),
@@ -70,10 +67,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
             }),
 
             const SizedBox(height: 5.0),
-            Text('начало смены',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            Textlabel(labelText: 'начало смены'),
 
 //            //   DAY begin
 
@@ -87,17 +81,11 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              DateFormat('dd.MM.yy')
-                                  .format(store.currentBeginDate),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.headline4),
-                          const SizedBox(width: 10.0),
-                          ElevatedButton(
-                            child: const Text('изменить дату'),
-                            onPressed: () => store.setDateBegin(context),
-                          ),
+                          TextDate(dateOnly: store.currentBeginDate),
+                          ElevatedButtonCustom(
+                              color: colorMainP2,
+                              textButton: 'изменить дату',
+                              onTap: () => store.setDateBegin(context)),
                         ],
                       ),
                       Divider(
@@ -106,15 +94,12 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(' ${store.currentBeginDate.getTime()}',
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.headline4),
+                          TextTime(dateTime: store.currentBeginDate),
                           const SizedBox(width: 10.0),
-                          ElevatedButton(
-                            child: const Text('изменить время'),
-                            onPressed: () => store.setTimeBegin(context),
-                          ),
+                          ElevatedButtonCustom(
+                              color: colorMainP2,
+                              textButton: 'изменить время',
+                              onTap: () => store.setTimeBegin(context)),
                         ],
                       ),
                     ],
@@ -124,10 +109,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
             }),
 
             const SizedBox(height: 5.0),
-            Text('окончание смены',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            Textlabel(labelText: 'окончание смены'),
 
 //            //   DAY finish
 
@@ -137,34 +119,19 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      TextDate(dateOnly: store.currentFinishDate),
+                      Divider(color: Colors.black.withOpacity(0.5)),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              DateFormat('dd.MM.yy')
-                                  .format(store.currentFinishDate),
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.headline4),
-                          const SizedBox(width: 8.0),
-                        ],
-                      ),
-                      Divider(
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(' ${store.currentFinishDate.getTime()}',
-                              textAlign: TextAlign.left,
-                              softWrap: true,
-                              style: Theme.of(context).textTheme.headline4),
-                          const SizedBox(width: 8.0),
-                          ElevatedButton(
-                            child: const Text('изменить время'),
-                            onPressed: () => store.setTimeFinish(context),
-                          ),
+                          TextTime(dateTime: store.currentFinishDate),
+                          ElevatedButtonCustom(
+                              color: colorMainP2,
+                              textButton: 'изменить время',
+                              onTap: () => store.setTimeFinish(context)),
                         ],
                       ),
                     ],
@@ -172,11 +139,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                 ),
               );
             }),
-
-            Text('продолжительность по умолчанию',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
+            Textlabel(labelText: 'продолжительность по умолчанию'),
 
 //             // duration
 
@@ -195,10 +158,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                         value: store.hours,
                         onChanged: store.setHours,
                       ),
-                      Text('часы',
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.subtitle1),
+                      Textlabel(labelText: 'часы'),
                       Slider(
                         min: 0,
                         max: 55,
@@ -207,10 +167,7 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
                         value: store.minutes,
                         onChanged: store.setMinutes,
                       ),
-                      Text('минуты',
-                          textAlign: TextAlign.left,
-                          softWrap: true,
-                          style: Theme.of(context).textTheme.subtitle1),
+                      Textlabel(labelText: 'минуты')
                     ],
                   ),
                 ),
@@ -224,35 +181,19 @@ class _EnterScreenBodyState extends State<EnterScreenBody> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  child: const Text('отмена'),
-                  onPressed: () => store.goMainScreenNotSave(context),
-                ),
-                ElevatedButton(
-                  child: const Text('сохранить'),
-                  onPressed: () => store.goMainScreenSave(context),
-                ),
+                IconButtonCustom(
+                    color: colorMainP2,
+                    iconButton: Icons.chevron_left,
+                    onTap: () => store.goMainScreenNotSave(context)),
+                IconButtonCustom(
+                    color: colorMainG,
+                    iconButton: Icons.add,
+                    onTap: () => store.goMainScreenSave(context)),
               ],
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-extension TimeOfDayConverter on TimeOfDay {
-  String to24hours() {
-    final hour = this.hour.toString().padLeft(2, "0");
-    final min = minute.toString().padLeft(2, "0");
-    return "$hour:$min";
-  }
-}
-
-extension DateTimeparsingTime on DateTime {
-  String getTime() {
-    final hour = this.hour.toString().padLeft(2, "0");
-    final min = minute.toString().padLeft(2, "0");
-    return "$hour:$min";
   }
 }

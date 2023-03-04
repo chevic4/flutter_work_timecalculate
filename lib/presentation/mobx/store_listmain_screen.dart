@@ -22,12 +22,14 @@ abstract class _StoreListMain with Store {
   }
 
   Future<void> loadDataFromStore() async {
+    listWorkDays.clear();
     loading = true;
     listWorkDays.addAll(await workDayService.loadListWorkDay());
     loading = false;
   }
 
   Future<void> deleteIndex(int index) async {
+    print(listWorkDays.length);
     loading = true;
     await workDayService.deleteWorkdayIndex(index);
     await loadDataFromStore();

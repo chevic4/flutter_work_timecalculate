@@ -32,14 +32,14 @@ class DayNightTextWidget extends StatelessWidget {
         'дневная смена',
         textAlign: TextAlign.left,
         softWrap: true,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       );
     } else {
       return Text(
         'ночная смена',
         textAlign: TextAlign.left,
         softWrap: true,
-        style: Theme.of(context).textTheme.bodyText1,
+        style: Theme.of(context).textTheme.bodyLarge,
       );
     }
   }

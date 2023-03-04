@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_work_timecalculate/data/theme.dart';
+import 'package:flutter_work_timecalculate/core/theme.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/day_night_widget.dart';
+import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../domain/entity/workday.dart';
 
@@ -9,18 +10,12 @@ class TitleViewDays extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _TextSubtitle(value: 'дата смены'),
-            _TextSubtitle(value: 'начало'),
-            _TextSubtitle(value: 'конец'),
-            _TextSubtitle(value: 'время'),
-          ]),
-    );
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Textlabel(labelText: ' дата смены'),
+      Textlabel(labelText: 'начало'),
+      Textlabel(labelText: 'конец'),
+      Textlabel(labelText: 'время '),
+    ]);
   }
 }
 
@@ -31,46 +26,17 @@ class DataWorkDayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: value.beginWork.hour < 17 ? colorPwhite : colorPblack,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  DayNightWidget(value: value.beginWork.hour < 17),
-                  const SizedBox(
-                    width: 5.0,
-                  ),
-                  _TextBody(value: DateFormat('dd.MM').format(value.beginWork)),
-                ],
-              ),
-            ),
-            _TextBody(value: DateFormat('HH:mm').format(value.beginWork)),
-            _TextBody(value: DateFormat('HH:mm').format(value.finishWork)),
-            _TextBody(value: _computeDuration(value)),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          DayNightWidget(value: value.beginWork.hour < 17),
+          _TextBody(value: DateFormat('dd.MM').format(value.beginWork)),
+          // Text('ewwwwerw'),
+          _TextBody(value: DateFormat('HH:mm').format(value.beginWork)),
+          _TextBody(value: DateFormat('HH:mm').format(value.finishWork)),
+          _TextBody(value: _computeDuration(value)),
+        ],
       ),
-    );
-  }
-}
-
-class _TextSubtitle extends StatelessWidget {
-  final String value;
-  const _TextSubtitle({required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(value,
-          textAlign: TextAlign.left,
-          softWrap: true,
-          style: Theme.of(context).textTheme.subtitle1),
     );
   }
 }
@@ -83,10 +49,12 @@ class _TextBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text(value,
-          textAlign: TextAlign.left,
-          softWrap: true,
-          style: Theme.of(context).textTheme.bodyText1),
+      child: Text(
+        value,
+        textAlign: TextAlign.left,
+        softWrap: true,
+        style: Theme.of(context).textTheme.headlineSmall,
+      ),
     );
   }
 }
