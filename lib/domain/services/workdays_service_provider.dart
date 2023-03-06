@@ -9,7 +9,9 @@ class WorkDaysStoreProvider {
   Future<List<WorkDay>> getWorkDaysFromHive() async {
     List<WorkDay> result = [];
     final store = await openIt();
-    result.addAll(store.values);
+    if (store.isNotEmpty) {
+      result.addAll(store.values);
+    }
     await closeIt();
     return result;
   }

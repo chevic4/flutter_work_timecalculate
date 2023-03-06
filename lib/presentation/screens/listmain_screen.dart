@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/result_workdays_time.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
-import '../../core/theme.dart';
+import '../../core/theme/theme.dart';
 import '../mobx/store_listmain_screen.dart';
 import '../widgets/data_workday_page.dart';
 
@@ -28,90 +28,87 @@ class _ListMainScreenState extends State<ListMainScreen> {
       return Scaffold(
         appBar: AppBar(title: const Text('калькулятор смен')),
         body: Container(
-          child: !store.loading
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            ResultWorkDaysWidget(
-                              value: store.durationWorkDays(),
-                              indexes: store.getLengthWorkDays(),
-                            ),
-                            const TitleViewDays(),
-                          ],
+            child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ResultWorkDaysWidget(
+                      value: store.durationWorkDays(),
+                      indexes: store.getLengthWorkDays(),
+                    ),
+                    const TitleViewDays(),
+                  ],
+                ),
+              ),
+              Expanded(
+                flex: 7,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: store.listWorkDays.length,
+                  itemBuilder: (context, index) => Slidable(
+                    key: ValueKey(store.listWorkDays[index]),
+                    direction: Axis.horizontal,
+                    endActionPane: ActionPane(
+                      extentRatio: 0.6,
+                      motion: ScrollMotion(),
+                      dismissible: DismissiblePane(
+                          onDismissed: () => store.deleteIndex(index)),
+                      children: [
+                        SlidableAction(
+                          onPressed: (context) {
+                            store.goEditScreen(context, index);
+                          },
+                          backgroundColor: colorbackGround,
+                          foregroundColor: colorMainP2,
+                          icon: Icons.edit,
+                          label: 'изменить',
                         ),
-                      ),
-                      Expanded(
-                        flex: 7,
-                        child: ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          itemCount: store.listWorkDays.length,
-                          itemBuilder: (context, index) => Slidable(
-                            key: ValueKey(store.listWorkDays[index]),
-                            direction: Axis.horizontal,
-                            endActionPane: ActionPane(
-                              extentRatio: 0.6,
-                              motion: ScrollMotion(),
-                              dismissible: DismissiblePane(
-                                  onDismissed: () => store.deleteIndex(index)),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    store.goEditScreen(context, index);
-                                  },
-                                  backgroundColor: colorbackGround,
-                                  foregroundColor: colorMainP2,
-                                  icon: Icons.edit,
-                                  label: 'изменить',
-                                ),
-                                SlidableAction(
-                                  onPressed: (context) {
-                                    store.deleteIndex(index);
-                                  },
-                                  backgroundColor: colorbackGround,
-                                  foregroundColor: colorMainP,
-                                  icon: Icons.delete,
-                                  label: 'удалить',
-                                ),
-                              ],
-                            ),
-                            child: DataWorkDayPage(
-                              value: store.listWorkDays[index],
-                            ),
-                          ),
+                        SlidableAction(
+                          onPressed: (context) {
+                            store.deleteIndex(index);
+                          },
+                          backgroundColor: colorbackGround,
+                          foregroundColor: colorMainP,
+                          icon: Icons.delete,
+                          label: 'удалить',
                         ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            IconButtonCustom(
-                                color: colorMainP2,
-                                iconButton: Icons.settings,
-                                onTap: () => store.goSettingScreen(context)),
-                            IconButtonCustom(
-                                color: colorMainP,
-                                iconButton: Icons.delete,
-                                onTap: () => store.clearList()),
-                            IconButtonCustom(
-                                color: colorMainG,
-                                iconButton: Icons.add,
-                                onTap: () => store.goAddScreen(context)),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
+                    child: DataWorkDayPage(
+                      value: store.listWorkDays[index],
+                    ),
                   ),
-                )
-              : Text('loading...'),
-        ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButtonCustom(
+                        color: colorMainP2,
+                        iconButton: Icons.settings,
+                        onTap: () => store.goSettingScreen(context)),
+                    IconButtonCustom(
+                        color: colorMainP,
+                        iconButton: Icons.delete,
+                        onTap: () => store.clearList()),
+                    IconButtonCustom(
+                        color: colorMainG,
+                        iconButton: Icons.add,
+                        onTap: () => store.goAddScreen(context)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )),
       );
     });
   }

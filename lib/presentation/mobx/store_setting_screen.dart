@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_work_timecalculate/core/services/navigation_service.dart';
 import 'package:flutter_work_timecalculate/domain/services/default_set_service.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/round_tofive.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/info_dialog_widget.dart';
@@ -197,7 +198,7 @@ abstract class _StoreSettingDate with Store {
   }
 
   void goMainScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/');
+    NavigationService.navigatePop();
   }
 }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_enterdata_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
-import '../../core/theme.dart';
+import '../../core/theme/theme.dart';
 import '../widgets/day_night_widget.dart';
 
 class EnterDataScreen extends StatelessWidget {

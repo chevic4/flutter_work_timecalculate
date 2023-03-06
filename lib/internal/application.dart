@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_work_timecalculate/core/data_days.dart';
-import 'package:flutter_work_timecalculate/core/route/named_route.dart';
+import 'package:flutter_work_timecalculate/core/route/route_names.dart';
 import 'package:flutter_work_timecalculate/core/route/routes.dart';
-import '../core/theme.dart';
+import 'package:flutter_work_timecalculate/core/services/navigation_service.dart';
+import '../core/theme/theme.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ru', ''),
       debugShowCheckedModeBanner: false,
       theme: myTheme(),
-      initialRoute: NamedRoutes.listMainScreen,
+      navigatorKey: NavigationService.navigatorKey,
+      initialRoute: RouteNames.listMainScreen.path,
       routes: Routes.routes(),
     );
   }
