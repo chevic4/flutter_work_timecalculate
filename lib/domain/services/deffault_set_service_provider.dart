@@ -4,8 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DefaultSettingsProvider {
   final sharedPreferences = SharedPreferences.getInstance();
 
-  Duration defaultDurationDay = Duration(minutes: 0);
-  Duration defaultDurationNight = Duration(minutes: 0);
+  Duration defaultDurationDay = Duration(minutes: 850);
+  Duration defaultDurationNight = Duration(minutes: 1080);
 
   DateTime defaultDateBeginDay = DateTime(2022, 09, 01, 00, 00);
   DateTime defaultDateBeginNight = DateTime(2022, 09, 01, 00, 00);

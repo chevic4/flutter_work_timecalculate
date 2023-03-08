@@ -11,6 +11,9 @@ part 'store_setting_screen.g.dart';
 class StoreSettingDate = _StoreSettingDate with _$StoreSettingDate;
 
 abstract class _StoreSettingDate with Store {
+  _StoreSettingDate() {
+    initDate();
+  }
   final DefaultSettingsService defaultSettingsService =
       DefaultSettingsService();
 
@@ -32,7 +35,7 @@ abstract class _StoreSettingDate with Store {
   TimeOfDay beginTime = TimeOfDay(hour: 09, minute: 09);
 
   @observable
-  TimeOfDay finishTime = TimeOfDay(hour: 21, minute: 21);
+  TimeOfDay finishTime = TimeOfDay(hour: 09, minute: 10);
 
   initDate() {
     getDurationDay();

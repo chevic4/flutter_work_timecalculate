@@ -4,41 +4,46 @@ import 'package:flutter_work_timecalculate/const/extensions.dart';
 import 'package:flutter_work_timecalculate/domain/services/default_set_service.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_setting_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/theme.dart';
 import '../widgets/day_night_widget.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('значения по умолчанию'),
-      ),
-      body: const SafeArea(child: SettingScreenBody()),
-    );
-  }
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class SettingScreenBody extends StatefulWidget {
-  const SettingScreenBody({super.key});
-
-  @override
-  State<SettingScreenBody> createState() => _SettingScreenBodyState();
-}
-
-class _SettingScreenBodyState extends State<SettingScreenBody> {
-  final store = StoreSettingDate();
+class _SettingScreenState extends State<SettingScreen> {
+  late final model;
 
   @override
   void initState() {
-    store.initDate();
+    model = StoreSettingDate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('значения по умолчанию'),
+        ),
+        body: SafeArea(
+            child: Provider<StoreSettingDate>.value(
+          value: model,
+          child: const SettingScreenBody(),
+        )));
+  }
+}
+
+class SettingScreenBody extends StatelessWidget {
+  const SettingScreenBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final store = Provider.of<StoreSettingDate>(context);
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(8.0),
@@ -154,7 +159,6 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                 ],
               );
             }),
-
             Observer(builder: (_) {
               return Card(
                 color: store.workDayChange ? colorPwhite : colorPblack,

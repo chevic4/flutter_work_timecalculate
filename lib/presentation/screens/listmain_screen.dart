@@ -29,20 +29,22 @@ class _ListMainScreenState extends State<ListMainScreen> {
         appBar: AppBar(title: const Text('калькулятор смен')),
         body: Container(
             child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
           child: Column(
             children: [
               Expanded(
                 flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ResultWorkDaysWidget(
-                      value: store.durationWorkDays(),
-                      indexes: store.getLengthWorkDays(),
-                    ),
-                    const TitleViewDays(),
-                  ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ResultWorkDaysWidget(
+                        value: store.durationWorkDays(),
+                        indexes: store.getLengthWorkDays(),
+                      ),
+                      TitleViewDays(),
+                    ],
+                  ),
                 ),
               ),
               Expanded(
