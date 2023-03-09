@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_work_timecalculate/core/services/navigation_service.dart';
 import 'package:flutter_work_timecalculate/domain/services/workdays_service.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/editdata_screen.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/enterdata_screen.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/settings_screen.dart';
 import 'package:mobx/mobx.dart';
 import '../../domain/entity/workday.dart';
-
 part 'store_listmain_screen.g.dart';
 
 class StoreListMain = _StoreListMain with _$StoreListMain;
@@ -22,6 +25,7 @@ abstract class _StoreListMain with Store {
   }
 
   Future<void> loadDataFromStore() async {
+    listWorkDays.clear();
     loading = true;
     listWorkDays.addAll(await workDayService.loadListWorkDay());
     loading = false;
@@ -35,15 +39,15 @@ abstract class _StoreListMain with Store {
   }
 
   void goSettingScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/settings');
+    NavigationService.navigatePush(const SettingScreen());
   }
 
   void goAddScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/enterdata');
+    NavigationService.navigatePush(const EnterDataScreen());
   }
 
   void goEditScreen(BuildContext context, int value) {
-    Navigator.popAndPushNamed(context, '/editdata', arguments: value);
+    NavigationService.navigatePush(EditDataScreen(indexWorkDay: value));
   }
 
   int getLengthWorkDays() {
@@ -64,5 +68,9 @@ abstract class _StoreListMain with Store {
     await workDayService.deleteBox();
     listWorkDays.clear();
     loading = false;
+  }
+
+  Future<bool> isLoadingStatus() async {
+    return loading ? true : false;
   }
 }

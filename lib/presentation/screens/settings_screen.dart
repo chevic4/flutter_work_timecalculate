@@ -1,50 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_work_timecalculate/const/extensions.dart';
+import 'package:flutter_work_timecalculate/domain/services/default_set_service.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_setting_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
-import 'package:intl/intl.dart';
-import '../../data/theme.dart';
+import 'package:provider/provider.dart';
+import '../../core/theme/theme.dart';
 import '../widgets/day_night_widget.dart';
 
-class SettingScreen extends StatelessWidget {
+class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('значения по умолчанию'),
-      ),
-      body: const SafeArea(child: SettingScreenBody()),
-    );
-  }
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class SettingScreenBody extends StatefulWidget {
-  const SettingScreenBody({super.key});
-
-  @override
-  State<SettingScreenBody> createState() => _SettingScreenBodyState();
-}
-
-class _SettingScreenBodyState extends State<SettingScreenBody> {
-  final store = StoreSettingDate();
+class _SettingScreenState extends State<SettingScreen> {
+  late final model;
 
   @override
   void initState() {
-    store.initDate();
+    model = StoreSettingDate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('значения по умолчанию'),
+        ),
+        body: SafeArea(
+            child: Provider<StoreSettingDate>.value(
+          value: model,
+          child: const SettingScreenBody(),
+        )));
+  }
+}
+
+class SettingScreenBody extends StatelessWidget {
+  const SettingScreenBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final store = Provider.of<StoreSettingDate>(context);
     return SingleChildScrollView(
       child: Container(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextSubTitle1(value: 'настройка смены'),
+            Textlabel(labelText: 'настройка смены'),
 
 //              DAY / NIGHT
 
@@ -59,17 +65,17 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                     children: [
                       DayNightTextWidget(value: store.workDayChange),
                       DayNightWidget(value: store.workDayChange),
-                      ElevatedButton(
-                        onPressed: store.changeWorkDayValue,
-                        child: const Text('поменять'),
-                      ),
+                      ElevatedButtonCustom(
+                          color: colorMainP2,
+                          textButton: 'поменять',
+                          onTap: store.changeWorkDayValue),
                     ],
                   ),
                 ),
               );
             }),
             const SizedBox(height: 5.0),
-            TextSubTitle1(value: 'дата по умолчанию'),
+            Textlabel(labelText: 'дата по умолчанию'),
 
 //            //   DATE begin
 
@@ -83,14 +89,12 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextHeadline4(
-                              value: DateFormat('dd.MM.yy')
-                                  .format(store.beginDate)),
-                          const SizedBox(width: 10.0),
-                          ElevatedButton(
-                            child: const Text('изменить дату'),
-                            onPressed: () => store.setDateBegin(context),
-                          ),
+                          TextDate(dateOnly: store.beginDate),
+                          const SizedBox(width: 5.0),
+                          ElevatedButtonCustom(
+                              color: colorMainP2,
+                              textButton: 'изменить дату',
+                              onTap: () => store.setDateBegin(context)),
                         ],
                       ),
                     ],
@@ -99,7 +103,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
               );
             }),
             const SizedBox(height: 5.0),
-            TextSubTitle1(value: 'начало по умолчанию'),
+            Textlabel(labelText: 'начало по умолчанию'),
 
 //            //    TIME begin
 
@@ -111,46 +115,50 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextHeadline4(value: store.beginTime.to24hours()),
+                      TextTime(dateTime: store.beginTime.toDateTime()),
                       const SizedBox(width: 10.0),
-                      ElevatedButton(
-                        child: const Text('изменить время'),
-                        onPressed: () => store.setTimeBegin(context),
-                      ),
+                      ElevatedButtonCustom(
+                          color: colorMainP2,
+                          textButton: 'изменить время',
+                          onTap: () => store.setTimeBegin(context)),
                     ],
                   ),
                 ),
               );
             }),
             const SizedBox(height: 5.0),
-            TextSubTitle1(value: 'окончание по умолчанию'),
+            Textlabel(labelText: 'окончание по умолчанию'),
 
 //           //    TIME finish
 
             Observer(builder: (_) {
-              return Card(
-                color: store.workDayChange ? colorPwhite : colorPblack,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextHeadline4(value: store.finishTime.to24hours()),
-                      const SizedBox(width: 10.0),
-                      ElevatedButton(
-                        child: const Text('изменить время'),
-                        onPressed: () => store.setTimeFinish(context),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    color: store.workDayChange ? colorPwhite : colorPblack,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextTime(dateTime: store.finishTime.toDateTime()),
+                          const SizedBox(width: 10.0),
+                          ElevatedButtonCustom(
+                              color: colorMainP2,
+                              textButton: 'изменить время',
+                              onTap: () => store.setTimeFinish(context)),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 5.0),
+                  Textlabel(
+                      labelText:
+                          'продолжительность по умолчанию ${store.defDuration.to24hours()}'),
+                ],
               );
             }),
-            const SizedBox(height: 5.0),
-            Text('продолжительность по умолчанию',
-                textAlign: TextAlign.left,
-                softWrap: true,
-                style: Theme.of(context).textTheme.subtitle1),
             Observer(builder: (_) {
               return Card(
                 color: store.workDayChange ? colorPwhite : colorPblack,
@@ -166,7 +174,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                         value: store.hours,
                         onChanged: store.setHours,
                       ),
-                      TextSubTitle1(value: 'часы'),
+                      Textlabel(labelText: 'часы'),
                       Slider(
                         min: 0,
                         max: 55,
@@ -175,7 +183,7 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
                         value: store.minutes,
                         onChanged: store.setMinutes,
                       ),
-                      TextSubTitle1(value: 'минуты'),
+                      Textlabel(labelText: 'минуты'),
                     ],
                   ),
                 ),
@@ -186,23 +194,15 @@ class _SettingScreenBodyState extends State<SettingScreenBody> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  child: const Text('назад'),
-                  onPressed: () => store.goMainScreen(context),
-                ),
+                IconButtonCustom(
+                    color: colorMainG,
+                    iconButton: Icons.chevron_left,
+                    onTap: () => store.goMainScreen(context)),
               ],
             ),
           ],
         ),
       ),
     );
-  }
-}
-
-extension TimeOfDayConverter on TimeOfDay {
-  String to24hours() {
-    final hour = this.hour.toString().padLeft(2, "0");
-    final min = minute.toString().padLeft(2, "0");
-    return "$hour:$min";
   }
 }

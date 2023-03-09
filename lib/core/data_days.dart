@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../domain/entity/workday.dart';
 
 class DataWorking {

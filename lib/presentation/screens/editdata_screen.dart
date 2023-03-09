@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_work_timecalculate/const/extensions.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/store_editdata_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/text_fonts.dart';
-import 'package:intl/intl.dart';
-import '../../data/theme.dart';
+import '../../core/theme/theme.dart';
 import '../widgets/day_night_widget.dart';
 
 class EditDataScreen extends StatefulWidget {
@@ -34,18 +34,18 @@ class _EditDataScreenState extends State<EditDataScreen> {
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
       return Scaffold(
-        appBar: AppBar(title: const Text('редактирование')),
+        appBar: AppBar(title: const Text('редактирование смены')),
         body: SafeArea(
           child: Container(
             child: store.isLoaded
                 ? SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
                     child: Container(
                       padding: const EdgeInsets.all(10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 5.0),
-                          TextSubTitle1(value: 'редактирование смены'),
+                          Textlabel(labelText: 'смена'),
 
                           //              DAY / NIGHT
 
@@ -60,16 +60,13 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                 children: [
                                   DayNightWidget(value: store.workDayChange),
                                   const SizedBox(width: 10.0),
-                                  TextHeadline4(
-                                      value: DateFormat('dd.MM.yy')
-                                          .format(store.currentBeginDate)),
+                                  TextDate(dateOnly: store.currentBeginDate),
                                 ],
                               ),
                             ),
                           ),
-
-                          const SizedBox(height: 10.0),
-                          TextSubTitle1(value: 'начало смены'),
+                          const SizedBox(height: 5.0),
+                          Textlabel(labelText: 'начало смены'),
 
                           //            //   Time begin
 
@@ -84,15 +81,14 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      TextHeadline4(
-                                          value:
-                                              ' ${store.currentBeginDate.getTime()}'),
+                                      TextTime(
+                                          dateTime: store.currentBeginDate),
                                       const SizedBox(width: 10.0),
-                                      ElevatedButton(
-                                        child: const Text('изменить время'),
-                                        onPressed: () =>
-                                            store.setTimeBegin(context),
-                                      ),
+                                      ElevatedButtonCustom(
+                                          color: colorMainP2,
+                                          textButton: 'изменить время',
+                                          onTap: () =>
+                                              store.setTimeBegin(context)),
                                     ],
                                   ),
                                 ],
@@ -100,7 +96,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                             ),
                           ),
                           const SizedBox(height: 10.0),
-                          TextSubTitle1(value: 'окончание смены'),
+                          Textlabel(labelText: 'окончание смены'),
 
                           //            //   Time finish
 
@@ -115,9 +111,8 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      TextHeadline4(
-                                          value: DateFormat('dd.MM.yy')
-                                              .format(store.currentFinishDate)),
+                                      TextDate(
+                                          dateOnly: store.currentFinishDate),
                                     ],
                                   ),
                                   Divider(color: Colors.black.withOpacity(0.5)),
@@ -125,23 +120,22 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      TextHeadline4(
-                                          value:
-                                              ' ${store.currentFinishDate.getTime()}'),
+                                      TextTime(
+                                          dateTime: store.currentFinishDate),
                                       const SizedBox(width: 10.0),
-                                      ElevatedButton(
-                                        child: const Text('изменить время'),
-                                        onPressed: () =>
-                                            store.setTimeFinish(context),
-                                      ),
+                                      ElevatedButtonCustom(
+                                          color: colorMainP2,
+                                          textButton: 'изменить время',
+                                          onTap: () =>
+                                              store.setTimeFinish(context)),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          TextSubTitle1(
-                              value:
+                          Textlabel(
+                              labelText:
                                   'продолжительность смены ${store.currentDuration.to24hours()}'),
 
                           //             // duration
@@ -161,7 +155,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     value: store.hours,
                                     onChanged: store.setHours,
                                   ),
-                                  TextSubTitle1(value: 'часы'),
+                                  Textlabel(labelText: 'часы'),
                                   Slider(
                                     min: 0,
                                     max: 55,
@@ -170,10 +164,33 @@ class _EditDataScreenState extends State<EditDataScreen> {
                                     value: store.minutes,
                                     onChanged: store.setMinutes,
                                   ),
-                                  TextSubTitle1(value: 'минуты'),
+                                  Textlabel(labelText: 'минуты'),
                                 ],
                               ),
                             ),
+                          ),
+
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButtonCustom(
+                                  color: colorMainP,
+                                  iconButton: Icons.delete,
+                                  onTap: () =>
+                                      store.goMainScreenDeleteDay(context)),
+                              IconButtonCustom(
+                                  color: colorMainP2,
+                                  iconButton: Icons.chevron_left,
+                                  onTap: () =>
+                                      store.goMainScreenNotSave(context)),
+                              IconButtonCustom(
+                                color: colorMainG,
+                                iconButton: Icons.save,
+                                onTap: () =>
+                                    store.goMainScreenSaveData(context),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -182,63 +199,7 @@ class _EditDataScreenState extends State<EditDataScreen> {
                 : Text('loading...'),
           ),
         ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(left: 25.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              FloatingActionButton(
-                heroTag: "btn6",
-                tooltip: 'удалить смену',
-                backgroundColor: colorMainP,
-                onPressed: () => store.goMainScreenDeleteDay(context),
-                child: Icon(
-                  Icons.delete,
-                  color: Colors.black.withOpacity(0.4),
-                ),
-              ),
-              FloatingActionButton(
-                heroTag: "btn5",
-                tooltip: 'назад',
-                backgroundColor: colorMainP2,
-                onPressed: () => store.goMainScreenNotSave(context),
-                child: Icon(
-                  Icons.chevron_left,
-                  color: Colors.black.withOpacity(0.4),
-                ),
-              ),
-              FloatingActionButton(
-                heroTag: "btn4",
-                tooltip: 'сохранить',
-                backgroundColor: colorMainG,
-                onPressed: () => store.goMainScreenSaveData(context),
-                child: Icon(
-                  Icons.save,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-              ),
-            ],
-          ),
-        ),
       );
     });
-  }
-}
-
-extension TimeOfDayConverter on TimeOfDay {
-  String to24hours() {
-    final hour = this.hour.toString().padLeft(2, "0");
-    final min = minute.toString().padLeft(2, "0");
-    return "$hour:$min";
-  }
-}
-
-extension DurationConverter on Duration {
-  String to24hours() {
-    int minutes = this.inMinutes.toInt() % 60;
-    int hours = this.inHours.toInt();
-    final hour = hours.toString().padLeft(2, "0");
-    final min = minutes.toString().padLeft(2, "0");
-    return "$hour:$min";
   }
 }

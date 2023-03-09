@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_work_timecalculate/data/data_days.dart';
+import 'package:flutter_work_timecalculate/core/data_days.dart';
+import 'package:flutter_work_timecalculate/core/services/navigation_service.dart';
 import 'package:flutter_work_timecalculate/domain/entity/workday.dart';
 import 'package:flutter_work_timecalculate/domain/services/default_set_service.dart';
 import 'package:flutter_work_timecalculate/domain/services/workdays_service.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/round_tofive.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/listmain_screen.dart';
 import 'package:mobx/mobx.dart';
 import '../widgets/info_dialog_widget.dart';
 import '../widgets/select_date_widget.dart';
@@ -171,7 +173,7 @@ abstract class _StoreEnterData with Store {
   }
 
   void goMainScreenNotSave(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/');
+    NavigationService.navigatePop();
   }
 
   Future<void> goMainScreenSave(BuildContext context) async {
@@ -179,7 +181,7 @@ abstract class _StoreEnterData with Store {
         WorkDay(beginWork: currentBeginDate, finishWork: currentFinishDate);
 
     await workDayService.addToStore(_data);
-    Navigator.popAndPushNamed(context, '/');
+    NavigationService.navigateReplacemant(const ListMainScreen());
   }
 }
 

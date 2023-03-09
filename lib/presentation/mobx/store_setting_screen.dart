@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_work_timecalculate/core/services/navigation_service.dart';
 import 'package:flutter_work_timecalculate/domain/services/default_set_service.dart';
 import 'package:flutter_work_timecalculate/presentation/mobx/round_tofive.dart';
 import 'package:flutter_work_timecalculate/presentation/widgets/info_dialog_widget.dart';
@@ -10,6 +11,9 @@ part 'store_setting_screen.g.dart';
 class StoreSettingDate = _StoreSettingDate with _$StoreSettingDate;
 
 abstract class _StoreSettingDate with Store {
+  _StoreSettingDate() {
+    initDate();
+  }
   final DefaultSettingsService defaultSettingsService =
       DefaultSettingsService();
 
@@ -31,7 +35,7 @@ abstract class _StoreSettingDate with Store {
   TimeOfDay beginTime = TimeOfDay(hour: 09, minute: 09);
 
   @observable
-  TimeOfDay finishTime = TimeOfDay(hour: 21, minute: 21);
+  TimeOfDay finishTime = TimeOfDay(hour: 09, minute: 10);
 
   initDate() {
     getDurationDay();
@@ -197,7 +201,7 @@ abstract class _StoreSettingDate with Store {
   }
 
   void goMainScreen(BuildContext context) {
-    Navigator.popAndPushNamed(context, '/');
+    NavigationService.navigatePop();
   }
 }
 
