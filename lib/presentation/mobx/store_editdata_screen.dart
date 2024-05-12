@@ -107,7 +107,7 @@ abstract class _StoreEditData with Store {
 
     if (workDayChange) {
       if (cacheDataTime.hour > 16) {
-        getInfoDialog(context, 'начало дневной смены не может позднее 17-00');
+        getInfoDialog(context, 'начало дневной смены не может позднее 17 ч.');
       } else {
         if (_validTimeOfDate(WorkDayMethods.getTimeFromDate(cacheDataTime),
                 WorkDayMethods.getTimeFromDate(currentFinishDate)) !=
@@ -121,11 +121,19 @@ abstract class _StoreEditData with Store {
       }
     } else {
       if (cacheDataTime.hour < 17) {
-        getInfoDialog(context, 'ночная смена не может быть раньше 17-00');
+        getInfoDialog(context, 'ночная смена не может начинаться ранее 17 ч.');
+        return;
       } else {
         if (cacheDataTime.isBefore(currentFinishDate)) {
           cacheDataTime.add(Duration(days: 1));
+          return;
         }
+      }
+      if (cacheDataTime.difference(currentBeginDate).inHours > 24) {
+        currentFinishDate.difference(currentBeginDate);
+        getInfoDialog(
+            context, 'продолжительность смены не может превышать 24 ч.');
+        return;
       }
       currentBeginDate = cacheDataTime;
       _computeDuration();
@@ -147,12 +155,24 @@ abstract class _StoreEditData with Store {
         getInfoDialog(context,
             'время окончания не может быть раньше времени начала смены');
       } else {
+        if (cacheDate.difference(currentBeginDate).inHours > 24) {
+          currentFinishDate.difference(currentBeginDate);
+          getInfoDialog(
+              context, 'продолжительность смены не может превышать 24 ч.');
+          return;
+        }
         currentFinishDate = cacheDate;
         _computeDuration();
       }
     } else {
       if (currentBeginDate.isBefore(cacheDate) != true) {
         cacheDate = cacheDate.add(Duration(days: 1));
+      }
+      if (cacheDate.difference(currentBeginDate).inHours > 24) {
+        currentFinishDate.difference(currentBeginDate);
+        getInfoDialog(
+            context, 'продолжительность смены не может превышать 24 ч.');
+        return;
       }
       currentFinishDate = cacheDate;
       _computeDuration();
