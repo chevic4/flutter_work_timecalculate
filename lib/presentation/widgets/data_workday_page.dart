@@ -31,7 +31,6 @@ class DataWorkDayPage extends StatelessWidget {
         children: [
           DayNightWidget(value: value.beginWork.hour < 17),
           _TextBody(value: DateFormat('dd.MM').format(value.beginWork)),
-          // Text('ewwwwerw'),
           _TextBody(value: DateFormat('HH:mm').format(value.beginWork)),
           _TextBody(value: DateFormat('HH:mm').format(value.finishWork)),
           _TextBody(value: _computeDuration(value)),

@@ -7,14 +7,14 @@ class DefaultSettingsProvider {
   Duration defaultDurationDay = Duration(minutes: 850);
   Duration defaultDurationNight = Duration(minutes: 1080);
 
-  DateTime defaultDateBeginDay = DateTime(2022, 09, 01, 00, 00);
-  DateTime defaultDateBeginNight = DateTime(2022, 09, 01, 00, 00);
+  DateTime defaultDateBeginDay = DateTime(2024, 05, 01, 00, 00);
+  DateTime defaultDateBeginNight = DateTime(2024, 05, 01, 00, 00);
 
-  DateTime defaultBeginTimeDay = DateTime(2022, 09, 01, 06, 50);
-  DateTime defaultBeginTimeNight = DateTime(2022, 09, 01, 18, 20);
+  DateTime defaultBeginTimeDay = DateTime(2024, 05, 01, 06, 50);
+  DateTime defaultBeginTimeNight = DateTime(2024, 05, 01, 18, 20);
 
-  DateTime defaultFinishTimeDay = DateTime(2022, 09, 01, 21, 00);
-  DateTime defaultFinishTimeNight = DateTime(2022, 09, 01, 12, 20);
+  DateTime defaultFinishTimeDay = DateTime(2024, 05, 01, 21, 00);
+  DateTime defaultFinishTimeNight = DateTime(2024, 05, 01, 12, 20);
 
   Future<void> saveDuration(bool day) async {
     int store =

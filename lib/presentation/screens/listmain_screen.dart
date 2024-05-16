@@ -98,6 +98,10 @@ class _ListMainScreenState extends State<ListMainScreen> {
                         iconButton: Icons.settings,
                         onTap: () => store.goSettingScreen(context)),
                     IconButtonCustom(
+                        color: colorMainP2,
+                        iconButton: Icons.calculate,
+                        onTap: () => store.goCalcScreen(context)),
+                    IconButtonCustom(
                         color: colorMainP,
                         iconButton: Icons.delete,
                         onTap: () => store.clearList()),

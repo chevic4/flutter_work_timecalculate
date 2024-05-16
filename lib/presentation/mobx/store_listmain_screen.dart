@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_work_timecalculate/core/services/navigation_service.dart';
 import 'package:flutter_work_timecalculate/domain/services/workdays_service.dart';
+import 'package:flutter_work_timecalculate/presentation/screens/calc_html_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/screens/editdata_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/screens/enterdata_screen.dart';
 import 'package:flutter_work_timecalculate/presentation/screens/settings_screen.dart';
@@ -48,6 +49,10 @@ abstract class _StoreListMain with Store {
 
   void goEditScreen(BuildContext context, int value) {
     NavigationService.navigatePush(EditDataScreen(indexWorkDay: value));
+  }
+
+  void goCalcScreen(BuildContext context) {
+    NavigationService.navigatePush(const CalcHtmlScreen());
   }
 
   int getLengthWorkDays() {

@@ -1,0 +1,471 @@
+
+<!-- Yandex.RTB R-A-63670-1 -->
+<div id="yandex_rtb_R-A-63670-1"></div>
+<script>window.yaContextCb.push(()=>{
+  Ya.Context.AdvManager.render({
+    renderTo: "yandex_rtb_R-A-63670-1",
+    blockId: "R-A-63670-1"
+  })
+})</script>			
+	</div>
+<style type="text/css">
+      .buttons td {
+        text-align: center;
+      }
+      .buttons td input {
+	width: 50px;
+	height: 45px;
+        font-weight: bold;
+
+	cursor: pointer;
+      }
+      .buttons td input.number, #daycs {
+    	background: #ffffff;
+	background: -moz-linear-gradient(top,  hsla(0,0%,100%,1) 0%, hsla(0,0%,96%,1) 47%, hsla(0,0%,93%,1) 100%);
+	background: -webkit-linear-gradient(top,  hsla(0,0%,100%,1) 0%,hsla(0,0%,96%,1) 47%,hsla(0,0%,93%,1) 100%);
+	background: -o-linear-gradient(top,  hsla(0,0%,100%,1) 0%,hsla(0,0%,96%,1) 47%,hsla(0,0%,93%,1) 100%);
+	background: -ms-linear-gradient(top,  hsla(0,0%,100%,1) 0%,hsla(0,0%,96%,1) 47%,hsla(0,0%,93%,1) 100%);
+	background: linear-gradient(top,  hsla(0,0%,100%,1) 0%,hsla(0,0%,96%,1) 47%,hsla(0,0%,93%,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
+	border: 1px solid #ddd;
+	color: #0d4865;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 5px 11px 4px;
+	border-radius: 4px;
+	float: left;
+	width: 50px;
+	height: 45px;
+        text-shadow: 0px 0px 0px #fff;
+	cursor: pointer;
+      }
+
+   
+      .screen {
+border-radius: 5px;
+padding: 4px;
+font-size: 24px;
+color: #667;
+text-align:right;
+      }
+
+      #h,#m,#s {
+        cursor: pointer;
+        cursor: hand;
+      }
+      #h.selected,#m.selected,#s.selected {
+        cursor:default;
+      }
+      .selected {
+        background: #ccc;
+        border: 1px solid #c00;
+      }
+      
+     .ornonpa{
+       padding: 0px!important;
+     }
+
+    </style>
+<br><br>
+
+    <script type="text/javascript">
+
+      
+      //calculator functions
+      //--------------------------------
+      var selection = 'h';
+      var operation = ''; //+-*/= or empty
+      //stored values
+      var v1 = 0,v2 = 'notSet';
+      var clearOnNext = false;
+      
+      function setSelection(s) {
+        if(s != selection) {
+          var oldSelection = selection;
+          selection = s;
+          document.getElementById(oldSelection).className = 'not-selected';
+          document.getElementById(selection).className = 'selected';
+          var x = document.getElementById('dot');
+          if(s == 's') {
+            x.removeAttribute('disabled');
+            x.className = 'number';
+          }
+          else {
+            x.setAttribute('disabled','disabled');
+            x.className = 'disabled';
+          }
+        }
+      }
+      
+      function setOperator(op) {
+        operation = op;
+        var x = document.getElementById('operator');
+        switch(op) {
+          case '':
+            x.innerHTML = '&nbsp;';
+            break;
+          case '/':
+            x.innerHTML = '&divide;';
+            break;
+          case '*':
+            x.innerHTML = '&times;';
+            break;
+          case '-':
+            x.innerHTML = '&minus;';
+            break;
+          default:
+            x.innerHTML = op;
+        }
+      }
+      
+      function clearDisplay() {
+        document.getElementById('h').innerHTML = '0';
+        document.getElementById('m').innerHTML = '00';
+        document.getElementById('s').innerHTML = '00';
+      }
+      
+      function insertNumber(n) {
+        if(clearOnNext) {
+          clearDisplay();
+          clearOnNext = false;
+        }
+        if(n == ':') {
+          switch(selection) {
+            case 'h':
+              setSelection('m');
+              break;
+            case 'm':
+              setSelection('s');
+              break;
+            case 's':
+              setSelection('h');
+              break;
+          }
+          return;
+        }
+        x = document.getElementById(selection);
+        if((n == '.') && (x.innerHTML.indexOf('.') >= 0)) return;
+        if(x.innerHTML == 0) x.innerHTML = n;
+        else x.innerHTML += n;
+      }
+      
+      function storeValues() {
+        var h = document.getElementById('h').innerHTML * 1;
+        var m = document.getElementById('m').innerHTML * 1;
+        var s = document.getElementById('s').innerHTML * 1;
+        if(h < 0) {
+          var neg = true;
+          h *= -1;
+        }
+        s += (60 * m) + (60 * 60 * h);
+        if(neg) s *= -1;
+        if(!v1) v1 = s;
+        else v2 = s;
+      }
+      
+      function calc(op) {
+        storeValues();
+        if(v2 == 'notSet') {
+          setOperator(op);
+        }
+        else {
+          switch(operation) {
+            case '+':
+              v1 = v1 + v2;
+              break;
+            case '-':
+              v1 = v1 - v2;
+              break;
+            case '*':
+              v1 = v1 * v2;
+              break;
+            case '/':
+              if(v2 == 0) {
+                alert('Can\'t divide by zero!');
+                return;
+              }
+              v1 = v1 / v2;
+              break;
+          }
+          v2 = 'notSet';
+          setOperator(op);
+          displayResult(v1);
+        }
+        clearOnNext = true;
+        if(operation == '/' || operation == '*') setSelection('s');
+        else setSelection('h');
+      }
+      
+      function equals() {
+        calc(operation);
+        setOperator('=');
+      }
+      
+      function displayResult(s) {
+        if(s < 0) {
+          var neg = true;
+          s *= -1;
+        }
+        var h=0,m=0;
+        /*var t = s % 60;
+        alert('t = '+t);
+        if(t > 0) {
+          m += t;
+          s -= (60 * t);
+        }
+        t = m % 60;
+        alert('t = '+t);
+        if(t > 0) {
+          h += t;
+          m -= (60 * t);
+        }
+        alert('h = '+h+'\nm = '+m+'\ns = '+s);*/
+        while(s >= 60) {
+          s -= 60;
+          m++;
+        }
+        while(m >= 60) {
+          m -= 60;
+          h++;
+        }
+        if(m < 10) m = '0' + m;
+        if(s < 10) s = '0' + s;
+        if(neg) h = '-' + h;
+
+		if(document.getElementById('daycs').value==1){	
+			if(h > 23) h = ((h/24-Math.trunc(h/24))*24).toFixed();
+			
+			if(neg){
+				s = 86400 - (s*1 + (60 * m) + (60 * 60 * h*-1));
+
+				var h=0,m=0;
+
+			while(s >= 60) {
+			  s -= 60;
+			  m++;
+			}
+			while(m >= 60) {
+			  m -= 60;
+			  h++;
+			}
+			if(m < 10) m = '0' + m;
+			if(s < 10) s = '0' + s;
+
+			}
+		}
+		
+		
+		
+		if(document.getElementById('daycs').value==2){	
+			if(h > 11) h = ((h/12-Math.trunc(h/12))*12).toFixed();
+			
+			if(neg){
+			
+				s = 86400/2 - (s*1 + (60 * m) + (60 * 60 * h*-1));
+		
+				var h=0,m=0;
+
+			while(s >= 60) {
+			  s -= 60;
+			  m++;
+			}
+			while(m >= 60) {
+			  m -= 60;
+			  h++;
+			}
+			if(m < 10) m = '0' + m;
+			if(s < 10) s = '0' + s;
+		
+
+			}
+		}		
+		
+		
+        document.getElementById('h').innerHTML = h;
+        document.getElementById('m').innerHTML = m;
+        document.getElementById('s').innerHTML = s;
+        setSelection('h');
+      }
+	  
+
+	  
+	  
+	  
+	  
+      
+      function clearX(v) {
+        if(v == 'C' && !(document.getElementById('h').innerHTML * 1) && !(document.getElementById('m').innerHTML * 1) && !(document.getElementById('s').innerHTML * 1)) v = 'AC';
+        else if(operation == '=') v = 'AC';
+        clearDisplay();
+        setSelection('h');
+        if(v == 'AC') {
+          setOperator('');
+          v1 = 0;
+          v2 = 'notSet';
+        }
+      }
+      
+      function backspace() {
+        var x = document.getElementById(selection);
+        var y = x.innerHTML;
+        var z = '';
+        if(y == 0) return;
+        for(var i=0;i<y.length-1;i++) {
+          if(y[i] == undefined) {
+            alert('Your browser doesn\'t support the backspace function.\nIn most cases, you can use the C key instead.');
+            return;
+          }
+          z += y[i];
+        }
+        if(z.length == 0) z = '0';
+        x.innerHTML = z;
+      }
+      
+
+      
+
+	$(document).keypress(function(e) {
+if(document.activeElement.type == "search" || document.activeElement.type == "textarea"  ){}else{
+			if(e.keyCode==48){
+          $('#b0').click();  
+			}
+			if(e.keyCode==49){
+          $('#b1').click();  
+			}
+			if(e.keyCode==50){
+          $('#b2').click();  
+			}
+			if(e.keyCode==51){
+          $('#b3').click();  
+			}
+			if(e.keyCode==52){
+          $('#b4').click();  
+			}
+			if(e.keyCode==53){
+          $('#b5').click();  
+			}
+			if(e.keyCode==54){
+          $('#b6').click();  
+			}
+			if(e.keyCode==55){
+          $('#b7').click();  
+			}
+			if(e.keyCode==56){
+          $('#b8').click();  
+			}
+			if(e.keyCode==57){
+          $('#b9').click();  
+			}
+			if(e.keyCode==45){
+          $('#sub').click();  
+			}
+			if(e.keyCode==43){
+          $('#plus').click();  
+			}
+			if(e.keyCode==47){
+          $('#div').click();  
+          return false;
+			}
+			if(e.keyCode==42){
+          $('#mul').click();  
+			}
+			if(e.keyCode==44 || e.keyCode==46){
+          $('#dot').click();  
+			}
+			if(e.keyCode==58){
+          $('#colon').click();  
+			}
+			if(e.keyCode==61){
+          $('#eq').click();  
+			}}
+		});
+
+$(document).keydown(function(e) {
+if(document.activeElement.type == "search" || document.activeElement.type == "textarea"  ){}else{
+			if(e.keyCode==8){
+          $('#bs').click();  
+          return false;
+			}
+			if(e.keyCode==39){
+          $('#colon').click(); 
+          return false;
+			}
+			if(e.keyCode==13 || e.keyCode==10){
+          $('#eq').click();  
+          return false;
+			}		
+			if(e.keyCode==37){
+          switch(selection) {
+            case 'h':
+              setSelection('s');
+              break;
+            case 'm':
+              setSelection('h');
+              break;
+            case 's':
+              setSelection('m');
+              break;
+							}
+			return;
+			}}
+		});
+    </script>
+
+
+
+
+
+
+<center>
+<div id="rslokadv" style="position:absolute; margin-top:75px; width: 360px;display:none;">
+</div>
+    <form method="post" action="javascript:equals()" name="form" style="min-width: 320px;">
+    <div class="calculator">
+   <table class="my_table">
+        <tr>
+          <td colspan="5" class="screen"><span id="h" class="selected" onclick="setSelection('h')">0</span>:<span id="m" onclick="setSelection('m')">00</span>:<span id="s" onclick="setSelection('s')">00</span>
+            <span id="operator">&nbsp;</span></td>
+        </tr>
+        <tr class="buttons">
+          <td><input type="button" class="number" name="b7" id="b7" value="7" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="number" name="b8" id="b8" value="8" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="number" name="b9" id="b9" value="9" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="ornonpa" name="div" id="div" value="&divide;" onclick="calc('/')" /></td>
+          <td><input type="button" class="ornonpa" name="c" id="c" value="C" onclick="clearX(this.value)" ondblclick="clearX('AC')" /></td>
+        </tr>
+        <tr class="buttons">
+          <td><input type="button" class="number" name="b4" id="b4" value="4" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="number" name="b5" id="b5" value="5" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="number" name="b6" id="b6" value="6" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="ornonpa" name="mul" id="mul" value="&times;" onclick="calc('*')" /></td>
+          <td><input type="button" class="ornonpa" name="ac" id="ac" value="AC" onclick="clearX(this.value)" /></td>
+        </tr>
+        <tr class="buttons">
+          <td><input type="button" class="number" name="b1" id="b1" value="1" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="number" name="b2" id="b2" value="2" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="number" name="b3" id="b3" value="3" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="ornonpa" name="sub" id="sub" value="&minus;" onclick="calc('-')" /></td>
+          <td><input type="button" class="ornonpa" name="bs" id="bs" value="&larr;" title="Backspace" onclick="backspace()" /></td>
+        </tr>
+        <tr class="buttons">
+          <td><input type="button" class="number" name="b0" id="b0" value="0" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="ornonpa" class="disabled" name="dot" id="dot" value="." disabled="disabled" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="ornonpa" class="colon" name="colon" id="colon" value=":" title="Switch between hours, minutes, and seconds" onclick="insertNumber(this.value)" /></td>
+          <td><input type="button" class="ornonpa" name="plus" id="plus" value="+" onclick="calc('+')" /></td>
+          <td><input type="button" class="ornonpa" name="eq" id="eq" value="=" onclick="equals()" /></td>
+        </tr>
+	 </table>
+    <select id="daycs" style="width:111px;margin: 10px 10px 15px 30px;">
+      <option value="0">MAX OFF</option>
+      <option value="2">MAX 12H</option>
+      <option value="1">MAX 24H</option>	
+  </select>
+  <br></br>
+  <br></br>
+  <hr class="dashed"></div>
+  <br>калькулятор интегрирован с сайта allcalc.ru</br>
+  </center>   
+
+ 
+
+   
